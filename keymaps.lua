@@ -9,12 +9,19 @@ local function run_curr_file()
 		local py_cmd = vim.api.nvim_replace_termcodes('ipython "' .. file_name .. '"<CR>', true, false, true)
 
 		-- Press keys to run python command on current file
-		vim.api.nvim_feedkeys("w", "c", false)
+		vim.cmd.write(file_name)
 		vim.api.nvim_feedkeys(py_cmd, "t", false)
+	elseif string.sub(file_name, -3, -1) == ".js" then
+		local js_cmd = vim.api.nvim_replace_termcodes('inode "' .. file_name .. '"<CR>', true, false, true)
+		vim.cmd.write(file_name)
+		vim.api.nvim_feedkeys(js_cmd, "t", false)
 	else
-		vim.print(
-			"Cannot run this file; it is not supported by this plugin. --T\nSupported file types include:\n\t> Python"
-		)
+		vim.print([[
+			Cannot run this file; it is not supported by this plugin. --T\n
+			Supported file types include:\n
+			\t> Python\n
+			\t> JavaScript
+		]])
 		return 0
 	end
 	-- Determine terminal window split and launch terminal
