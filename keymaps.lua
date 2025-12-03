@@ -1,41 +1,3 @@
--- Run current file in terminal window
-local function run_curr_file()
-	-- Get file name in the current buffer
-	local file_name = vim.api.nvim_buf_get_name(0)
-	-- Test for file type PYTHON
-	if string.sub(file_name, -3, -1) == ".py" then
-		-- Get terminal codes for running python file
-		-- ("i" to enter insert before typing rest of the command)
-		local py_cmd = vim.api.nvim_replace_termcodes('ipython "' .. file_name .. '"<CR>', true, false, true)
-
-		-- Press keys to run python command on current file
-		vim.cmd.write(file_name)
-		vim.api.nvim_feedkeys(py_cmd, "t", false)
-	elseif string.sub(file_name, -3, -1) == ".js" then
-		local js_cmd = vim.api.nvim_replace_termcodes('inode "' .. file_name .. '"<CR>', true, false, true)
-		vim.cmd.write(file_name)
-		vim.api.nvim_feedkeys(js_cmd, "t", false)
-	else
-		vim.print([[
-			Cannot run this file; it is not supported by this plugin. --T\n
-			Supported file types include:\n
-			\t> Python\n
-			\t> JavaScript
-		]])
-		return 0
-	end
-	-- Determine terminal window split and launch terminal
-	local percent_of_win = 0.4
-	local curr_win_height = vim.api.nvim_win_get_height(0) -- Current window height
-	local term_height = math.floor(curr_win_height * percent_of_win) -- Terminal height
-	vim.cmd(":below " .. term_height .. "split | term") -- Launch terminal (horizontal split)
-end
-
--- File run in terminal keymap
-vim.keymap.set({ "n" }, "<A-r>", run_curr_file, {
-	desc = "Run current file in the terminal",
-})
-
 -- Set 'kj' to enter Normal mode
 vim.keymap.set({ "i", "v" }, "kj", "<Esc>")
 
@@ -86,3 +48,12 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 
 -- Set <leadre>ut to UndotreeToggle
 vim.keymap.set("n", "<leader>ut", "<cmd>:UndotreeToggle<CR>", { desc = "Toggle UndoTree" })
+
+-- Bind <C-BS> to delete backwards word
+vim.keymap.set("n", "<C-BS>", "bdw", { desc = "Delete word behind" })
+
+-- Set <C-\\> to start of written line
+vim.keymap.set("n", "<C-\\>", "^", { desc = "GOTO start of written line" })
+
+-- <A-r> run file in terminal
+vim.keymap.set("n", "<A-r>", Run_curr_file, { desc = "Run the current file in the terminal" })
