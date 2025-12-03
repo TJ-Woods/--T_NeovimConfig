@@ -49,3 +49,9 @@ vim.o.confirm = true
 
 -- Enable Undotree short timestamps
 vim.g.undotree_ShortIndicators = 1
+
+-- Enable nerd font
+-- vim.g.have_nerd_font = true
+
+-- Change diff command to FC -- WINDOWS SPECIFIC
+vim.g.undotree_DiffCommand = "FC"

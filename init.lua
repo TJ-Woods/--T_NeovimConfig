@@ -6,9 +6,3 @@ vim.g.maplocalleader = " "
 require("--T.plugins")
 require("--T.keymaps")
 require("--T.options")
-
--- Enable nerd font
--- vim.g.have_nerd_font = true
-
--- Change diff command to FC -- WINDOWS SPECIFIC
-vim.g.undotree_DiffCommand = "FC"
