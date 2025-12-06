@@ -49,11 +49,11 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 -- Set <leadre>ut to UndotreeToggle
 vim.keymap.set("n", "<leader>ut", "<cmd>:UndotreeToggle<CR>", { desc = "Toggle UndoTree" })
 
--- Bind <C-BS> to delete backwards word
-vim.keymap.set("n", "<C-BS>", "bdw", { desc = "Delete word behind" })
-
 -- Set <C-\\> to start of written line
 vim.keymap.set("n", "<C-\\>", "^", { desc = "GOTO start of written line" })
 
 -- <A-r> run file in terminal
 vim.keymap.set("n", "<A-r>", Run_curr_file, { desc = "Run the current file in the terminal" })
+
+-- neogit auto cwd=%
+vim.cmd([[noreabbrev <expr> ngit getcmdtype() == ':' && getcmdline() ==# 'ngit' ? 'Neogit cwd=%' : 'ngit']])
