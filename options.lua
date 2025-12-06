@@ -58,3 +58,6 @@ vim.g.undotree_DiffCommand = "FC"
 
 -- Expand tabs to spaces
 vim.o.expandtab = true
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.smartindent = true
