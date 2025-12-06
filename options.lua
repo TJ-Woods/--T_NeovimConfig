@@ -55,3 +55,6 @@ vim.g.undotree_ShortIndicators = 1
 
 -- Change diff command to FC -- WINDOWS SPECIFIC
 vim.g.undotree_DiffCommand = "FC"
+
+-- Expand tabs to spaces
+vim.o.expandtab = true
