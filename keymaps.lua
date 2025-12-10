@@ -6,7 +6,7 @@ vim.api.nvim_create_user_command("We", "write | Explore", { desc = "Writes and e
 vim.cmd([[cnoreabbrev <expr> we getcmdtype() == ':' && getcmdline() ==# 'we' ? 'We' : 'we']])
 
 -- Create shortcut to enter Home/Coding/Python in Explorer
-local python_dir = "C:/Users/travi/OneDrive/Desktop/Home/Coding/Python"
+local python_dir = "C:/Users/travi/OneDrive/Desktop/Coding/Python"
 vim.api.nvim_create_user_command(
 	"Pythondir",
 	"Explore " .. python_dir,
