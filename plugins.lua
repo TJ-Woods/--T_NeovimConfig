@@ -10,7 +10,6 @@ function Run_curr_file()
 		local js_cmd = vim.api.nvim_replace_termcodes("i" .. 'node "' .. file_name .. '"<CR>', true, false, true)
 		vim.api.nvim_feedkeys(js_cmd, "t", false)
 	elseif string.sub(file_name, -2, -1) == ".c" then
-		-- local name = string.sub(vim.fn.expand("%:t"), 0, -3)
 		local name = string.sub(vim.api.nvim_buf_get_name(0), 0, -3) .. ".exe"
 		local c_cmd = vim.api.nvim_replace_termcodes(
 			"i" .. 'gcc "' .. file_name .. '" -o "' .. name .. '"<CR>',
@@ -20,7 +19,9 @@ function Run_curr_file()
 		)
 		local c_run = vim.api.nvim_replace_termcodes(name .. "<CR>", true, false, true)
 		vim.api.nvim_feedkeys(c_cmd, "t", false)
-		vim.api.nvim_feedkeys(c_run, "t", false)
+		if "[no-error-from-terminal]" then
+			vim.api.nvim_feedkeys(c_run, "t", false)
+		end
 	elseif string.sub(file_name, -4, -1) == ".cpp" then
 		local name = string.sub(vim.api.nvim_buf_get_name(0), 0, -5) .. ".exe"
 		local cpp_cmd = vim.api.nvim_replace_termcodes(
@@ -31,7 +32,9 @@ function Run_curr_file()
 		)
 		local cpp_run = vim.api.nvim_replace_termcodes(name .. "<CR>", true, false, true)
 		vim.api.nvim_feedkeys(cpp_cmd, "t", false)
-		vim.api.nvim_feedkeys(cpp_run, "t", false)
+		if "[no-error-from-terminal]" then
+			vim.api.nvim_feedkeys(cpp_run, "t", false)
+		end
 	else
 		local name = vim.fn.expand("%:t")
 		vim.print([[
