@@ -5,7 +5,7 @@ vim.keymap.set({ "i", "v" }, "kj", "<Esc>")
 vim.api.nvim_create_user_command("We", "write | Explore", { desc = "Writes and exits to Explorer" })
 vim.cmd([[cnoreabbrev <expr> we getcmdtype() == ':' && getcmdline() ==# 'we' ? 'We' : 'we']])
 
--- Create shortcut to enter Home/Coding/Python in Explorer
+-- Create shortcut to enter /Coding/Python in Explorer
 local python_dir = "C:/Users/travi/OneDrive/Desktop/Coding/Python"
 vim.api.nvim_create_user_command(
 	"Pythondir",
@@ -16,7 +16,12 @@ vim.cmd(
 	[[cnoreabbrev <expr> pythondir getcmdtype() == ':' && getcmdline() ==# 'pythondir' ? 'Pythondir' : 'pythondir']]
 )
 
--- Create shortcut to enter Home/Coding/Python in Explorer
+-- Create shortcut to enter /Coding/C in Explorer
+local c_dir = "C:/Users/travi/OneDrive/Desktop/Coding/C"
+vim.api.nvim_create_user_command("Cdir", "Explore " .. c_dir, { desc = "Enters the Explorer in the C directory" })
+vim.cmd([[cnoreabbrev <expr> cdir getcmdtype() == ':' && getcmdline() ==# 'cdir' ? 'Cdir' : 'cdir']])
+
+-- Create shortcut to enter --T/ in Explorer
 local TConfig_dir = "C:/Program Files/Neovim/bin/lua/--T/"
 vim.api.nvim_create_user_command(
 	"TConfig",
