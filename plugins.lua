@@ -17,7 +17,7 @@ function Run_curr_file()
 			false,
 			true
 		)
-		local c_run = vim.api.nvim_replace_termcodes(name .. "<CR>", true, false, true)
+		local c_run = vim.api.nvim_replace_termcodes('"' .. name .. '" <CR>', true, false, true)
 		vim.api.nvim_feedkeys(c_cmd, "t", false)
 		if "[no-error-from-terminal]" then
 			vim.api.nvim_feedkeys(c_run, "t", false)
@@ -30,11 +30,15 @@ function Run_curr_file()
 			false,
 			true
 		)
-		local cpp_run = vim.api.nvim_replace_termcodes(name .. "<CR>", true, false, true)
+		local cpp_run = vim.api.nvim_replace_termcodes('"' .. name .. '" <CR>', true, false, true)
 		vim.api.nvim_feedkeys(cpp_cmd, "t", false)
 		if "[no-error-from-terminal]" then
 			vim.api.nvim_feedkeys(cpp_run, "t", false)
 		end
+	elseif string.sub(file_name, -4, -1) == ".ps1" then
+		local ps1_cmd =
+			vim.api.nvim_replace_termcodes("i" .. 'powershell "' .. file_name .. '" <CR>', true, false, true)
+		vim.api.nvim_feedkeys(ps1_cmd, "t", false)
 	else
 		local name = vim.fn.expand("%:t")
 		vim.print([[
@@ -44,6 +48,7 @@ Supported file types include:
     > JavaScript
     > C
     > C++
+    > Powershell
         ]])
 		return 0
 	end
