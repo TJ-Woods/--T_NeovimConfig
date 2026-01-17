@@ -87,7 +87,16 @@ rtp:prepend(lazypath)
 require("lazy").setup({
 	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
 	"NMAC427/guess-indent.nvim", -- Detect tabstop and shiftwidth automatically
+
 	"mbbill/undotree",
+
+	{
+		"tadmccorkle/markdown.nvim",
+		ft = "markdown", -- or 'event = "VeryLazy"',
+		--      opts = {
+		-- -- configuration here or empty for defaults
+		--      },
+	},
 
 	{
 		"nvim-telescope/telescope.nvim",
