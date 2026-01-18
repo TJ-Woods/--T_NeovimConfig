@@ -66,3 +66,9 @@ vim.cmd([[noreabbrev <expr> ngit getcmdtype() == ':' && getcmdline() ==# 'ngit' 
 -- vse to vs and Ex
 vim.api.nvim_create_user_command("Vse", "vsplit | Explore", { desc = "Vsplits and exits to Explorer" })
 vim.cmd([[cnoreabbrev <expr> vse getcmdtype() == ':' && getcmdline() ==# 'vse' ? 'Vse' : 'vse']])
+
+-- Line moving with <A-[j/k]>
+vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line up (n mode)" })
+vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line down (n mode)" })
+vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move line up (v mode)" })
+vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move line down (v mode)" })
