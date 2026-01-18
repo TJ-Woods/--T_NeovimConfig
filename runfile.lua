@@ -20,10 +20,25 @@ local function get_call_func(os_name)
 	return call
 end
 
+local function get_exec_file_ext(os_name)
+	local exec_file_ext = ""
+	if os_name == "Windows_NT" then
+		exec_file_ext = ".exe"
+	else
+		vim.print("Unsupported OS '" .. os_name .. "'")
+	end
+	return exec_file_ext
+end
+
 local function has_suffix(str, substr)
 	local len = string.len(substr)
 	local contains = string.sub(str, -len, -1) == substr
 	return contains
+end
+
+local function find_build_file(file_name)
+	print("Not yet implemented")
+	return nil
 end
 
 function Run_curr_file()
@@ -32,16 +47,17 @@ function Run_curr_file()
 
 	local os_name = get_os()
 	local call = get_call_func(os_name)
+	local exec_file_ext = get_exec_file_ext(os_name)
 
 	if has_suffix(file_name, ".py") then
 		run_cmd('python "' .. file_name .. '"')
 	elseif has_suffix(file_name, ".js") then
 		run_cmd('node "' .. file_name .. '"')
 	elseif has_suffix(file_name, ".c") then
-		local name = string.sub(vim.api.nvim_buf_get_name(0), 0, -3) .. ".exe"
-		-- Check for build.sh or similar, run that if exists, else run standard "gcc main.c -o main"
-		if false then -- "[build_file-exists]" then
-			local build_file = "build.sh" -- change to found build file
+		local name = string.sub(vim.api.nvim_buf_get_name(0), 0, -3) .. exec_file_ext
+		-- Check for build file, run that if exists, else run standard "gcc main.c -o main"
+		local build_file = find_build_file(file_name)
+		if build_file ~= nil then
 			run_cmd(call .. '"' .. build_file .. '"')
 		else
 			run_cmd('gcc "' .. file_name .. '" -o "' .. name .. '"')
@@ -50,13 +66,14 @@ function Run_curr_file()
 			run_cmd('"' .. name .. '"')
 		end
 	elseif has_suffix(file_name, ".cpp") then
-		local name = string.sub(vim.api.nvim_buf_get_name(0), 0, -5) .. ".exe"
-		-- Check for build.sh, run it if exists, else run standard "g++ main.cpp -o main"
-		if false then -- "[build_file-exists]" then
-			local build_file = "build.sh" -- change to found build file
+		local name = string.sub(vim.api.nvim_buf_get_name(0), 0, -5) .. exec_file_ext
+		-- Check for build file, run that if exists, else run standard "g++ main.cpp -o main"
+		local build_file = find_build_file(file_name)
+		if build_file ~= nil then
 			run_cmd(call .. '"' .. build_file .. '"')
 		else
-			run_cmd('g++ "' .. file_name .. '" -o "' .. name('"'))
+			print("Build file not found")
+			run_cmd('g++ "' .. file_name .. '" -o "' .. name .. '"')
 		end
 		if "[no-error-during-build]" then
 			run_cmd('"' .. name .. '"')
