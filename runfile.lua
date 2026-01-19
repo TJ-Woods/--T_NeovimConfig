@@ -1,5 +1,11 @@
-local function run_cmd(cmd)
-	local command = vim.api.nvim_replace_termcodes("i" .. cmd .. "<CR>", true, false, true)
+local io = require("io")
+
+local function run_cmd(cmd, omit_insertion)
+	local inpt = "i"
+	if omit_insertion then
+		inpt = ""
+	end
+	local command = vim.api.nvim_replace_termcodes(inpt .. cmd .. "<CR>", true, false, true)
 	vim.api.nvim_feedkeys(command, "t", false)
 end
 
@@ -12,8 +18,6 @@ local function get_call_func(os_name)
 	local call = ""
 	if os_name == "Windows_NT" then
 		call = "call "
-		-- elseif os_name == "<linux>" then
-		-- local call = "call"
 	else
 		vim.print("Unsupported OS '" .. os_name .. "'")
 	end
@@ -30,15 +34,56 @@ local function get_exec_file_ext(os_name)
 	return exec_file_ext
 end
 
+local function get_shell_ext(os_name)
+	local shell_ext = ""
+	if os_name == "Windows_NT" then
+		shell_ext = ".bat"
+	else
+		vim.print("Unsupported OS '" .. os_name .. "'")
+	end
+	return shell_ext
+end
+
 local function has_suffix(str, substr)
 	local len = string.len(substr)
 	local contains = string.sub(str, -len, -1) == substr
 	return contains
 end
 
+local function search_dir(dir, target)
+	local os_name = get_os()
+	local found = false
+	if os_name == "Windows_NT" then
+		for file in io.popen('dir "' .. dir .. '" /B', "r"):lines() do -- TODO: Fix this
+			if target == file then
+				found = true
+				break
+			else
+			end
+		end
+	else
+		-- print("Unsupported OS '" .. os_name .. "'")
+		-- for file in io.popen("ls -pa " .. dir .. " | grep -v /"):lines() do
+		-- 	if target == file then
+		-- 		found = true
+		-- 		break
+		-- 	end
+		-- end -- LINUX
+	end
+	return found
+end
+
 local function find_build_file(file_name)
-	print("Not yet implemented")
-	return nil
+	local os_name = get_os()
+	local shell_ext = get_shell_ext(os_name)
+
+	local dir = string.sub(file_name, 0, -vim.fn.expand("%:t"):len() - 1)
+	local build_file = "build" .. shell_ext
+	if search_dir(dir, build_file) then
+		return dir .. build_file
+	else
+		return nil
+	end
 end
 
 function Run_curr_file()
@@ -48,55 +93,52 @@ function Run_curr_file()
 	local os_name = get_os()
 	local call = get_call_func(os_name)
 	local exec_file_ext = get_exec_file_ext(os_name)
+	local shell_ext = get_shell_ext(os_name)
 
 	if has_suffix(file_name, ".py") then
-		run_cmd('python "' .. file_name .. '"')
+		run_cmd('python "' .. file_name .. '"', false)
 	elseif has_suffix(file_name, ".js") then
-		run_cmd('node "' .. file_name .. '"')
+		run_cmd('node "' .. file_name .. '"', false)
 	elseif has_suffix(file_name, ".c") then
 		local name = string.sub(vim.api.nvim_buf_get_name(0), 0, -3) .. exec_file_ext
-		-- Check for build file, run that if exists, else run standard "gcc main.c -o main"
 		local build_file = find_build_file(file_name)
 		if build_file ~= nil then
-			run_cmd(call .. '"' .. build_file .. '"')
+			run_cmd(call .. '"' .. build_file .. '"', false) -- <call> has a space already
 		else
-			run_cmd('gcc "' .. file_name .. '" -o "' .. name .. '"')
-		end
-		if "[no-error-during-build]" then
-			run_cmd('"' .. name .. '"')
+			run_cmd('gcc "' .. file_name .. '" -o "' .. name .. '"', false)
+			if "[no-error-during-build]" then
+				run_cmd('"' .. name .. '"', true)
+			end
 		end
 	elseif has_suffix(file_name, ".cpp") then
 		local name = string.sub(vim.api.nvim_buf_get_name(0), 0, -5) .. exec_file_ext
 		-- Check for build file, run that if exists, else run standard "g++ main.cpp -o main"
 		local build_file = find_build_file(file_name)
 		if build_file ~= nil then
-			run_cmd(call .. '"' .. build_file .. '"')
+			run_cmd(call .. '"' .. build_file .. '"', false)
 		else
 			print("Build file not found")
-			run_cmd('g++ "' .. file_name .. '" -o "' .. name .. '"')
-		end
-		if "[no-error-during-build]" then
-			run_cmd('"' .. name .. '"')
+			run_cmd('g++ "' .. file_name .. '" -o "' .. name .. '"', false)
 		end
 	elseif has_suffix(file_name, ".ps1") then
-		run_cmd('powershell "' .. file_name .. '"')
+		run_cmd('powershell "' .. file_name .. '"', false)
 	elseif has_suffix(file_name, ".bat") then
-		run_cmd(call .. '"' .. file_name .. '"')
+		run_cmd(call .. '"' .. file_name .. '"', false)
 	elseif has_suffix(file_name, ".sh") then
-		run_cmd(call .. '"' .. file_name .. '"')
+		run_cmd(call .. '"' .. file_name .. '"', false)
 	else
 		local name = vim.fn.expand("%:t")
-		vim.print([[
-Cannot run this file ']] .. name .. [['; it is not supported by this plugin. --T
-Supported file types include:
-    > Python (.py)
-    > JavaScript (.js)
-    > C (.c) [option to use build.sh]
-    > C++ (.cpp) [option to use build.sh]
-    > Powershell (.ps1)
-    > batch (.bat)
-    > shell (.sh)
-        ]])
+		-- 		vim.print([[
+		-- Cannot run this file ']] .. name .. [['; it is not supported by this plugin. --T
+		-- Supported file types include:
+		--     > Python (.py)
+		--     > JavaScript (.js)
+		--     > C (.c) [option to use build.sh]
+		--     > C++ (.cpp) [option to use build.sh]
+		--     > Powershell (.ps1)
+		--     > batch (.bat)
+		--     > shell (.sh)
+		--         ]])
 		return 0
 	end
 
