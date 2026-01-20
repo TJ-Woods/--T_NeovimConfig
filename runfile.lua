@@ -106,19 +106,20 @@ function Run_curr_file()
 			run_cmd(call .. '"' .. build_file .. '"', false) -- <call> has a space already
 		else
 			run_cmd('gcc "' .. file_name .. '" -o "' .. name .. '"', false)
-			if "[no-error-during-build]" then
+			if "[no-error-during-build]" then -- TODO: detect error in build
 				run_cmd('"' .. name .. '"', true)
 			end
 		end
 	elseif has_suffix(file_name, ".cpp") then
 		local name = string.sub(vim.api.nvim_buf_get_name(0), 0, -5) .. exec_file_ext
-		-- Check for build file, run that if exists, else run standard "g++ main.cpp -o main"
 		local build_file = find_build_file(file_name)
 		if build_file ~= nil then
 			run_cmd(call .. '"' .. build_file .. '"', false)
 		else
-			print("Build file not found")
 			run_cmd('g++ "' .. file_name .. '" -o "' .. name .. '"', false)
+			if "[no-error-during-build]" then -- TODO: detect error in build
+				run_cmd('"' .. name .. '"', false)
+			end
 		end
 	elseif has_suffix(file_name, ".ps1") then
 		run_cmd('powershell "' .. file_name .. '"', false)
@@ -128,17 +129,17 @@ function Run_curr_file()
 		run_cmd(call .. '"' .. file_name .. '"', false)
 	else
 		local name = vim.fn.expand("%:t")
-		-- 		vim.print([[
-		-- Cannot run this file ']] .. name .. [['; it is not supported by this plugin. --T
-		-- Supported file types include:
-		--     > Python (.py)
-		--     > JavaScript (.js)
-		--     > C (.c) [option to use build.sh]
-		--     > C++ (.cpp) [option to use build.sh]
-		--     > Powershell (.ps1)
-		--     > batch (.bat)
-		--     > shell (.sh)
-		--         ]])
+		vim.print([[
+Cannot run this file ']] .. name .. [['; it is not supported by this plugin. --T
+Supported file types include:
+    > Python (.py)
+    > JavaScript (.js)
+    > C (.c) [option to use build file]
+    > C++ (.cpp) [option to use build file]
+    > Powershell (.ps1)
+    > Batch (.bat)
+    > Shell (.sh)
+        ]])
 		return 0
 	end
 
