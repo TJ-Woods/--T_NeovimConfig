@@ -18,6 +18,8 @@ local function get_call_func(os_name)
 	local call = ""
 	if os_name == "Windows_NT" then
 		call = "call "
+	elseif os_name == "Linux" then
+		call = ""
 	else
 		vim.print("Unsupported OS '" .. os_name .. "'")
 	end
@@ -28,6 +30,8 @@ local function get_exec_file_ext(os_name)
 	local exec_file_ext = ""
 	if os_name == "Windows_NT" then
 		exec_file_ext = ".exe"
+	elseif os_name == "Linux" then
+		exec_file_ext = ""
 	else
 		vim.print("Unsupported OS '" .. os_name .. "'")
 	end
@@ -38,6 +42,8 @@ local function get_shell_ext(os_name)
 	local shell_ext = ""
 	if os_name == "Windows_NT" then
 		shell_ext = ".bat"
+	elseif os_name == "Linux" then
+		shell_ext = ".sh"
 	else
 		vim.print("Unsupported OS '" .. os_name .. "'")
 	end
@@ -61,14 +67,14 @@ local function search_dir(dir, target)
 			else
 			end
 		end
-	else
-		-- print("Unsupported OS '" .. os_name .. "'")
-		-- for file in io.popen("ls -pa " .. dir .. " | grep -v /"):lines() do
-		-- 	if target == file then
-		-- 		found = true
-		-- 		break
-		-- 	end
-		-- end -- LINUX
+	elseif os_name == "Linux" then
+		for file in io.popen("ls -pa " .. dir .. " | grep -v /"):lines() do
+			if target == file then
+				found = true
+				break
+			end
+		end
+		print("Unsupported OS '" .. os_name .. "'")
 	end
 	return found
 end
@@ -93,7 +99,6 @@ function Run_curr_file()
 	local os_name = get_os()
 	local call = get_call_func(os_name)
 	local exec_file_ext = get_exec_file_ext(os_name)
-	local shell_ext = get_shell_ext(os_name)
 
 	if has_suffix(file_name, ".py") then
 		run_cmd('python "' .. file_name .. '"', false)

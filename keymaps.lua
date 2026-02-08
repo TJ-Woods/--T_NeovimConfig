@@ -1,3 +1,4 @@
+local os_name = vim.loop.os_uname().sysname
 -- Set 'kj' to enter Normal mode
 vim.keymap.set({ "i", "v" }, "kj", "<Esc>")
 
@@ -6,7 +7,12 @@ vim.api.nvim_create_user_command("We", "write | Explore", { desc = "Writes and e
 vim.cmd([[cnoreabbrev <expr> we getcmdtype() == ':' && getcmdline() ==# 'we' ? 'We' : 'we']])
 
 -- Create shortcut to enter /Coding/Python in Explorer
-local python_dir = "C:/Users/travi/OneDrive/Desktop/Coding/Python"
+local python_dir = ""
+if os_name == "Windows_NT" then
+	python_dir = "C:/Users/travi/OneDrive/Desktop/Coding/Python/"
+elseif os_name == "Linux" then
+	python_dir = "~/Desktop/Coding/Python/"
+end
 vim.api.nvim_create_user_command(
 	"Pythondir",
 	"Explore " .. python_dir,
@@ -17,12 +23,23 @@ vim.cmd(
 )
 
 -- Create shortcut to enter /Coding/C in Explorer
-local c_dir = "C:/Users/travi/OneDrive/Desktop/Coding/C"
+
+local c_dir = ""
+if os_name == "Windows_NT" then
+	c_dir = "C:/Users/travi/OneDrive/Desktop/Coding/C/"
+elseif os_name == "Linux" then
+	c_dir = "~/Desktop/Coding/C/"
+end
 vim.api.nvim_create_user_command("Cdir", "Explore " .. c_dir, { desc = "Enters the Explorer in the C directory" })
 vim.cmd([[cnoreabbrev <expr> cdir getcmdtype() == ':' && getcmdline() ==# 'cdir' ? 'Cdir' : 'cdir']])
 
 -- Create shortcut to enter --T/ in Explorer
-local TConfig_dir = "C:/Program Files/Neovim/bin/lua/--T/"
+local TConfig_dir = ""
+if os_name == "Windows_NT" then
+	TConfig_dir = "C:/Program Files/Neovim/bin/lua/--T/"
+elseif os_name == "Linux" then
+	Tconfig_dir = "~/.config/nvim/lua/--T/"
+end
 vim.api.nvim_create_user_command(
 	"TConfig",
 	"Explore " .. TConfig_dir,

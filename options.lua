@@ -1,3 +1,4 @@
+local os_name = vim.loop.os_uname().sysname
 -- Enable line number and relative number
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -54,7 +55,9 @@ vim.g.undotree_ShortIndicators = 1
 -- vim.g.have_nerd_font = true
 
 -- Change diff command to FC -- WINDOWS SPECIFIC
-vim.g.undotree_DiffCommand = "FC"
+if os_name == "Windows_NT" then
+	vim.g.undotree_DiffCommand = "FC"
+end
 
 -- Expand tabs to spaces
 vim.o.expandtab = true

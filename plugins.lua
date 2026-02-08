@@ -156,14 +156,6 @@ require("lazy").setup({
 			alpha.setup(theta.config)
 		end,
 	},
-	{
-		"gorbit99/codewindow.nvim",
-		config = function()
-			local codewindow = require("codewindow")
-			codewindow.setup()
-			codewindow.apply_default_keybinds()
-		end,
-	},
 	-- NOTE: Plugins can also be added by using a table,
 	-- with the first argument being the link and the following
 	-- keys can be used to configure plugin behavior/loading/etc.
