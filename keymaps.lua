@@ -38,12 +38,12 @@ local TConfig_dir = ""
 if os_name == "Windows_NT" then
 	TConfig_dir = "C:/Program Files/Neovim/bin/lua/--T/"
 elseif os_name == "Linux" then
-	Tconfig_dir = "~/.config/nvim/lua/--T/"
+	TConfig_dir = "~/.config/nvim/lua/--T/"
 end
 vim.api.nvim_create_user_command(
 	"TConfig",
 	"Explore " .. TConfig_dir,
-	{ desc = "Enters the Explorer in the Python directory" }
+	{ desc = "Enters the Explorer in the --T config directory" }
 )
 vim.cmd([[cnoreabbrev <expr> tconfig getcmdtype() == ':' && getcmdline() ==# 'tconfig' ? 'TConfig' : 'tconfig']])
 
