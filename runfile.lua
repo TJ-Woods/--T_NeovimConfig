@@ -92,6 +92,17 @@ local function find_build_file(file_name)
 	end
 end
 
+local function find_source_file(file_name)
+	local shell_ext = get_shell_ext(get_os())
+	local dir = string.sub(file_name, 0, -vim.fn.expand("%:t"):len() - 1)
+	local source_file = "source" .. shell_ext
+	if search_dir(dir, source_file) then
+		return dir .. source_file
+	else
+		return nil
+	end
+end
+
 function Run_curr_file()
 	local file_name = vim.api.nvim_buf_get_name(0)
 	vim.cmd.write(file_name)
@@ -101,7 +112,16 @@ function Run_curr_file()
 	local exec_file_ext = get_exec_file_ext(os_name)
 
 	if has_suffix(file_name, ".py") then
-		run_cmd('python "' .. file_name .. '"', false)
+		local source_file = find_source_file(file_name) -- for build with venv
+		if source_file then
+			run_cmd(call .. '"' .. source_file .. '"', false)
+		else
+			if os_name == "Windows_NT" then
+				run_cmd('python "' .. file_name .. '"', false)
+			elseif os_name == "Linux" then
+				run_cmd('python3 "' .. file_name .. '"', false)
+			end
+		end
 	elseif has_suffix(file_name, ".js") then
 		run_cmd('node "' .. file_name .. '"', false)
 	elseif has_suffix(file_name, ".c") then
