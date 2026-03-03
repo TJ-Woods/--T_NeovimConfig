@@ -41,6 +41,26 @@ require("lazy").setup({
 	},
 
 	{
+		"linux-cultist/venv-selector.nvim",
+		dependencies = {
+			{ "nvim-telescope/telescope.nvim", version = "*", dependencies = { "nvim-lua/plenary.nvim" } },
+		},
+		ft = "python",
+		keys = {
+			{ "<leader>pv", "<cmd>VenvSelect<cr>", desc = "Open Python venv picker" },
+		},
+		opts = {
+			options = {},
+			search = {
+				venv_folder = {
+					command = 'fdfind "/bin/python$" ~/Desktop/Coding/Python/Environments/ --full-path',
+				},
+				cwd = false,
+			},
+		},
+	},
+
+	{
 		"nvim-telescope/telescope.nvim",
 		event = "VimEnter",
 		dependencies = {
@@ -680,7 +700,7 @@ require("lazy").setup({
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		main = "nvim-treesitter.configs", -- Sets main module to use for opts
+		-- main = "nvim-treesitter.configs", -- Sets main module to use for opts
 		-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 		opts = {
 			ensure_installed = {
