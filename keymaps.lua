@@ -80,7 +80,7 @@ vim.keymap.set("n", "<A-r>", Run_curr_file, { desc = "Run the current file in th
 -- neogit auto cwd=%
 vim.cmd([[noreabbrev <expr> ngit getcmdtype() == ':' && getcmdline() ==# 'ngit' ? 'Neogit cwd=%' : 'ngit']])
 
--- vse to vs and Ex
+-- vse to vsplit and Explore
 vim.api.nvim_create_user_command("Vse", "vsplit | Explore", { desc = "Vsplits and exits to Explorer" })
 vim.cmd([[cnoreabbrev <expr> vse getcmdtype() == ':' && getcmdline() ==# 'vse' ? 'Vse' : 'vse']])
 

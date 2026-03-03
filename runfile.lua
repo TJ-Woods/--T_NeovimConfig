@@ -74,6 +74,7 @@ local function search_dir(dir, target)
 				break
 			end
 		end
+	else
 		print("Unsupported OS '" .. os_name .. "'")
 	end
 	return found
