@@ -6,6 +6,9 @@ vim.opt.relativenumber = true
 -- Enable mouse
 vim.o.mouse = "a"
 
+-- Clipboard Manager
+vim.opt.clipboard = "unnamedplus"
+
 -- Disable showing the mode since it is visible in the status line anyway
 vim.o.showmode = false
 
