@@ -32,12 +32,11 @@ require("lazy").setup({
 	"mbbill/undotree",
 
 	{
-		-- "TJ-Woods/--TColours.nvim",
-		dir = "~/.config/--TColours.nvim/",
+		"Mofiqul/vscode.nvim",
 		lazy = false,
 		priority = 1000,
 		config = function()
-			vim.cmd("colorscheme --TColours")
+			vim.cmd("colorscheme vscode")
 		end,
 	},
 
