@@ -32,12 +32,17 @@ require("lazy").setup({
 	"mbbill/undotree",
 
 	{
-		"TJ-Woods/--TColours.nvim",
+		-- "TJ-Woods/--TColours.nvim",
+		dir = "~/.config/--TColours.nvim/",
 		lazy = false,
 		priority = 1000,
 		config = function()
 			vim.cmd("colorscheme --TColours")
 		end,
+	},
+
+	{
+		"uga-rosa/ccc.nvim",
 	},
 
 	{
@@ -1004,4 +1009,19 @@ neogit.setup({
 			hidden = false,
 		},
 	},
+})
+-- Enable true color
+vim.opt.termguicolors = true
+
+local ccc = require("ccc")
+local mapping = ccc.mapping
+
+ccc.setup({
+	-- Your preferred settings
+	-- Example: enable highlighter
+	highlighter = {
+		auto_enable = true,
+		lsp = true,
+	},
+	preserve = true,
 })
