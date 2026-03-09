@@ -6,6 +6,13 @@ vim.opt.relativenumber = true
 -- Enable mouse
 vim.o.mouse = "a"
 
+-- Enable treesitter
+vim.api.nvim_create_autocmd("FileType", {
+	callback = function()
+		pcall(vim.treesitter.start)
+	end,
+})
+
 -- Clipboard Manager
 -- Map <leader>y to yank to the system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to system clipboard" })
