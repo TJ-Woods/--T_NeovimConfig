@@ -2,6 +2,12 @@ local os_name = vim.loop.os_uname().sysname
 -- Set 'kj' to enter Normal mode
 vim.keymap.set({ "i", "v" }, "kj", "<Esc>")
 
+-- Clipboard Manager
+-- Map <leader>y to yank to the system clipboard
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to system clipboard" })
+-- Map <leader>p to paste from the system clipboard
+vim.keymap.set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
+
 -- Create shortcut to save and exit to Explorer
 vim.api.nvim_create_user_command("We", "write | Explore", { desc = "Writes and exits to Explorer" })
 vim.cmd([[cnoreabbrev <expr> we getcmdtype() == ':' && getcmdline() ==# 'we' ? 'We' : 'we']])

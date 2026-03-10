@@ -13,12 +13,6 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- Clipboard Manager
--- Map <leader>y to yank to the system clipboard
-vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to system clipboard" })
--- Map <leader>p to paste from the system clipboard
-vim.keymap.set({ "n", "v", "i" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
-
 -- Disable showing the mode since it is visible in the status line anyway
 vim.o.showmode = false
 
