@@ -1,5 +1,5 @@
 
-local gh = function(owner, name)
+local function gh(owner, name)
     return "https://github.com/" .. owner .. "/" .. name
 end
 
@@ -13,10 +13,11 @@ vim.pack.add({
     gh("neogitorg", "neogit"),                  -- Git interface
     gh("folke", "todo-comments.nvim"),          -- TODO: <-- this
     gh("neovim", "nvim-lspconfig"),             -- LSP manager
-    gh("williamboman", "mason.nvim"),           --"
-    gh("williamboman", "mason-lspconfig.nvim"), --"
+    gh("williamboman", "mason.nvim"),           -- "
+    gh("williamboman", "mason-lspconfig.nvim"), -- "
     gh("tpope", "vim-abolish"),                 -- Case-Preserving text replacements
     gh("nvim-mini", "mini.statusline"),         -- Nicer Status line
+    gh("TJ-Woods", "nvim-RunFile"),             -- Run files with the terminal
 })
 
 -- Start all loaded packages/plugins
@@ -24,6 +25,14 @@ vim.cmd("packloadall")
 
 -- Colour scheme set to VSCode (Colour scheme)
 vim.cmd("colorscheme vscode")
+
+-- Run files with the terminal
+require("RunFile").setup( {
+    cleaup = true,
+})
+
+-- Mini statusline
+require("mini.statusline").setup()
 
 -- Guess Indent
 require("guess-indent").setup()
@@ -41,6 +50,16 @@ require("todo-comments").setup()
 
 -- Enable venv-selector (python virtual environments)
 require("venv-selector").setup()
+
+-- FIX:
+-- Colour Picker and Display
+require("ccc") .setup({
+    highlighter = {
+        auto_enable = true,
+        lsp = true,
+    },
+    preserve = true,
+})
 
 -- Abolish (text capitalisation autocmds)
 -- require("vim-abolish").setup()
