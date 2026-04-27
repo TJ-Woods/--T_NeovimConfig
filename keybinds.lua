@@ -19,6 +19,14 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move cursor to window right
 -- '<esc>' to escape hl
 vim.keymap.set("n", "<Esc>", "<Cmd>nohl<Cr>", { desc = "Escape hl" })
 
+-- Remove NETRW <C-l> keymap
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "netrw",
+  callback = function()
+    vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { buffer = true })
+  end
+})
+
 -- '<A-#>' to move selected (#= hjkl)
 vim.keymap.set("n", "<A-j>", ":m .+1<Cr>==", { desc = "Move current line down"})
 vim.keymap.set("n", "<A-k>", ":m .-2<Cr>==", { desc = "Move current line up"})
