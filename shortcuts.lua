@@ -11,4 +11,4 @@ vim.cmd("cnoreabbrev <expr> pythondir getcmdtype() == ':' && getcmdline() ==# 'p
 -- Cdir
 cdir = "~/Desktop/Coding/C/"
 vim.api.nvim_create_user_command("Cdir", "Explore " .. cdir, { desc = "Explores the Coding/C directory" })
-vim.cmd("cnoreabbrev <expr> cdir getcmdtype()) == ':' && getcmdline() ==# 'cdir' ? 'Cdir' : 'cdir'")
+vim.cmd("cnoreabbrev <expr> cdir getcmdtype() == ':' && getcmdline() ==# 'cdir' ? 'Cdir' : 'cdir'")
