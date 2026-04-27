@@ -16,7 +16,6 @@ vim.pack.add({
     gh("neovim", "nvim-lspconfig"),             -- LSP manager
     gh("williamboman", "mason.nvim"),           -- "
     gh("williamboman", "mason-lspconfig.nvim"), -- "
-    gh("tpope", "vim-abolish"),                 -- Case-Preserving text replacements
     gh("nvim-mini", "mini.statusline"),         -- Nicer Status line
     gh("nvim-mini", "mini.icons"),              -- Nicer icons
     gh("TJ-Woods", "nvim-RunFile"),             -- Run files with the terminal
@@ -59,11 +58,13 @@ require("todo-comments").setup()
 require("venv-selector").setup()
 
 -- Colour Picker and Display
--- vim.opt.termguicolors = true
--- require("ccc") .setup()
-
--- Abolish (text capitalisation autocmds)
--- require("vim-abolish").setup()
+vim.opt.termguicolors = true
+require("ccc").setup({
+    highlighter = {
+        auto_enable = true,
+        lsp = true,
+    },
+})
 
 -- Neogit
 require("neogit").setup()
