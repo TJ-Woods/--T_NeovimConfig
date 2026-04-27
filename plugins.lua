@@ -5,6 +5,7 @@ end
 
 vim.pack.add({
     gh("nvim-lua", "plenary.nvim"),             -- Dependancy for many plugins
+    gh("nvim-treesitter", "nvim-treesitter"),    -- Treesitter
     gh("mofiqul", "vscode.nvim"),               -- Colour theme
     gh("mbbill", "undotree"),                   -- Undotree
     gh("nmac427", "guess-indent.nvim"),         -- Helps with autoindentation
@@ -17,7 +18,9 @@ vim.pack.add({
     gh("williamboman", "mason-lspconfig.nvim"), -- "
     gh("tpope", "vim-abolish"),                 -- Case-Preserving text replacements
     gh("nvim-mini", "mini.statusline"),         -- Nicer Status line
+    gh("nvim-mini", "mini.icons"),              -- Nicer icons
     gh("TJ-Woods", "nvim-RunFile"),             -- Run files with the terminal
+    gh("MeanderingProgrammer", "render-markdown.nvim"), -- Markdown Rendering
 })
 
 -- Start all loaded packages/plugins
@@ -29,7 +32,11 @@ vim.cmd("colorscheme vscode")
 -- Run files with the terminal
 require("RunFile").setup( {
     cleaup = true,
+    auto_close = true,
 })
+
+-- Markdown Rendering
+require("render-markdown").setup()
 
 -- Mini statusline
 require("mini.statusline").setup()
@@ -51,15 +58,9 @@ require("todo-comments").setup()
 -- Enable venv-selector (python virtual environments)
 require("venv-selector").setup()
 
--- FIX:
 -- Colour Picker and Display
-require("ccc") .setup({
-    highlighter = {
-        auto_enable = true,
-        lsp = true,
-    },
-    preserve = true,
-})
+-- vim.opt.termguicolors = true
+-- require("ccc") .setup()
 
 -- Abolish (text capitalisation autocmds)
 -- require("vim-abolish").setup()
