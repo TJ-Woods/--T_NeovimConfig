@@ -1,14 +1,18 @@
+-- Create user command lowercase bind
+local function create_user_command(title, cmd, descr)
+  local little_title = title:lower()
+  vim.api.nvim_create_user_command(title, cmd, { desc = descr })
+  vim.cmd("cnoreabbrev <expr> " .. little_title .. " getcmdtype() == ':' && getcmdline() ==# '" .. little_title .. "' ? '" .. title .. "' : '" .. little_title .. "'")
+end
 
 -- 'kj' for exit
 vim.keymap.set( { "i", "v" }, "kj", "<Esc>" )
 
 -- 'vse' to vsplit and explore
-vim.api.nvim_create_user_command( "Vse", "vsplit | Explore",  { desc = "Vsplits and exits to explorer" } )
-vim.cmd("cnoreabbrev <expr> vse getcmdtype() == ':' && getcmdline() ==# 'vse' ? 'Vse' : 'vse'")
+create_user_command("Vse", "vsplit | Explore", "Vsplits and exits to explorer")
 
 -- 'we' to save and explore
-vim.api.nvim_create_user_command( "We", "write | Explore", { desc = "Writes and exits to explorer" } )
-vim.cmd("cnoreabbrev <expr> we getcmdtype() == ':' && getcmdline() ==# 'we' ? 'We' : 'we'")
+create_user_command("We", "write | Explore", "Writes and exits to explorer")
 
 -- '<C-#>' to move between splits (#= hjkl)
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move cursor to window left" })
@@ -34,10 +38,8 @@ vim.keymap.set("v", "<A-j>", ":m '>+1<Cr>gv=gv", { desc = "Move selected down"})
 vim.keymap.set("v", "<A-k>", ":m '<-2<Cr>gv=gv", { desc = "Move selected up"})
 
 -- splt / vsplt to open terminal in split or vsplit window
-vim.api.nvim_create_user_command( "Splt", "split | terminal", { desc = "splits and opens terminal" })
-vim.api.nvim_create_user_command( "Vsplt", "vsplit | terminal", { desc = "vsplits and opens terminal" })
-vim.cmd("cnoreabbrev <expr> splt getcmdtype() == ':' && getcmdline() ==# 'splt' ? 'Splt' : 'splt'")
-vim.cmd("cnoreabbrev <expr> vsplt getcmdtype() == ':' && getcmdline() ==# 'vsplt' ? 'Vsplt' : 'vsplt'")
+create_user_command("Splt", "split | terminal", "splits and opens terminal")
+create_user_command("Vsplt", "vsplit | terminal", "vsplits and opens terminal")
 
 -- Clipboard
 vim.keymap.set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
@@ -47,5 +49,10 @@ vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "yank to system cliybo
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle UndoTree" })
 
 -- ngit auto open Neogit cwd=%
-vim.api.nvim_create_user_command("Ngit", "Neogit cwd=%", { desc = "Opens Neogit with the current working directory" })
-vim.cmd("cnoreabbrev <expr> ngit getcmdtype() == ':' && getcmdline() ==# 'ngit' ? 'Ngit' : 'ngit'")
+create_user_command("Ngit", "Neogit cwd=%", "Opens Neogit with the current working directory")
+
+-- mini.files open shortcut
+vim.keymap.set("n", "<leader>-", "<cmd>lua MiniFiles.open()<CR>", { desc = "Opens the mini.files buffer" })
+
+-- mini.files vsplit open
+create_user_command("Vsm", "vsplit | lua MiniFiles.open()", "Opens new vsplit and enters mini.files buffer")

@@ -5,7 +5,7 @@ end
 
 vim.pack.add({
     gh("nvim-lua", "plenary.nvim"),             -- Dependancy for many plugins
-    gh("nvim-treesitter", "nvim-treesitter"),    -- Treesitter
+    gh("nvim-treesitter", "nvim-treesitter"),   -- Treesitter
     gh("mofiqul", "vscode.nvim"),               -- Colour theme
     gh("mbbill", "undotree"),                   -- Undotree
     gh("nmac427", "guess-indent.nvim"),         -- Helps with autoindentation
@@ -20,6 +20,7 @@ vim.pack.add({
     gh("nvim-mini", "mini.icons"),              -- Nicer icons
     gh("TJ-Woods", "nvim-RunFile"),             -- Run files with the terminal
     gh("MeanderingProgrammer", "render-markdown.nvim"), -- Markdown Rendering
+    gh("nvim-mini", "mini.files"),              -- Better file directory exploration
 })
 
 -- Start all loaded packages/plugins
@@ -33,6 +34,9 @@ require("RunFile").setup( {
     cleaup = true,
     auto_close = true,
 })
+
+-- File directory exploration
+require("mini.files").setup()
 
 -- Markdown Rendering
 require("render-markdown").setup()
