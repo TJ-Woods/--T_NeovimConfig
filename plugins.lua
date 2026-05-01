@@ -30,9 +30,8 @@ vim.cmd("packloadall")
 vim.cmd("colorscheme vscode")
 
 -- Run files with the terminal
-require("RunFile").setup( {
-    cleaup = true,
-    auto_close = true,
+require("RunFile").setup({
+    cleanup = true,
 })
 
 -- File directory exploration
@@ -59,7 +58,15 @@ require("guess-indent").setup()
 require("todo-comments").setup()
 
 -- Enable venv-selector (python virtual environments)
-require("venv-selector").setup()
+require("venv-selector").setup({
+    options = {},
+    search = {
+        venv_folder = {
+            command = 'fdfind "/bin/python$" ~/Desktop/Coding/Python/Environments/ --full-path',
+        },
+        cwd = false,
+    }
+})
 
 -- Colour Picker and Display
 vim.opt.termguicolors = true

@@ -56,3 +56,6 @@ vim.keymap.set("n", "<leader>-", "<cmd>lua MiniFiles.open()<CR>", { desc = "Open
 
 -- mini.files vsplit open
 create_user_command("Vsm", "vsplit | lua MiniFiles.open()", "Opens new vsplit and enters mini.files buffer")
+
+-- '<leader>v' for VenvSelect
+vim.keymap.set("n", "<leader>v", "<cmd>VenvSelect<CR>", { desc = "Opens the VenvSelect menu" })
