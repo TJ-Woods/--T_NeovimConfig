@@ -21,6 +21,7 @@ vim.pack.add({
     gh("TJ-Woods", "nvim-RunFile"),             -- Run files with the terminal
     gh("MeanderingProgrammer", "render-markdown.nvim"), -- Markdown Rendering
     gh("nvim-mini", "mini.files"),              -- Better file directory exploration
+    gh("TJ-Woods", "nvim-StickyNotes"),         -- Sticky Notes
 })
 
 -- Start all loaded packages/plugins
@@ -32,6 +33,12 @@ vim.cmd("colorscheme vscode")
 -- Run files with the terminal
 require("RunFile").setup({
     cleanup = true,
+})
+
+-- Sticky notes
+require("StickyNotes").setup({
+    use_cwd = false,
+    window_style = "",
 })
 
 -- File directory exploration

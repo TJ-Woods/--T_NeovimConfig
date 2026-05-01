@@ -20,9 +20,6 @@ vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move cursor to window down"
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move cursor to window up" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move cursor to window right" })
 
--- '<esc>' to escape hl
-vim.keymap.set("n", "<Esc>", "<Cmd>nohl<Cr>", { desc = "Escape hl" })
-
 -- Remove NETRW <C-l> keymap
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "netrw",
@@ -30,6 +27,9 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { buffer = true })
   end
 })
+
+-- '<esc>' to escape hl
+vim.keymap.set("n", "<Esc>", "<Cmd>nohl<Cr>", { desc = "Escape hl" })
 
 -- '<A-#>' to move selected (#= hjkl)
 vim.keymap.set("n", "<A-j>", ":m .+1<Cr>==", { desc = "Move current line down"})
@@ -59,3 +59,27 @@ create_user_command("Vsm", "vsplit | lua MiniFiles.open()", "Opens new vsplit an
 
 -- '<leader>v' for VenvSelect
 vim.keymap.set("n", "<leader>v", "<cmd>VenvSelect<CR>", { desc = "Opens the VenvSelect menu" })
+
+-- Shortcut to update plugins
+create_user_command("Update", "lua vim.pack.update()", "Shortcut: Updates plugins")
+
+create_user_command("Update", function()
+  -- Sync and Update existing plugins
+  print("Updating plugins...")
+  vim.pack.update()
+
+  -- Identify inactive plugins (on disk but not in config)
+  local inactive = vim.iter(vim.pack.get())
+    :filter(function(p) return not p.active end)
+    :map(function(p) return p.spec.name end)
+    :totable()
+
+  -- Remove them if any exist
+  if #inactive > 0 then
+    print("Cleaning up: " .. table.concat(inactive, ", ") .. "...")
+    vim.pack.del(inactive)
+  else
+    print("No inactive plugins to remove.")
+  end
+  print("Update and Cleanup complete.")
+end, "Updates and cleans installed plugins")
