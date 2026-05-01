@@ -39,6 +39,8 @@ require("RunFile").setup({
 require("StickyNotes").setup({
     use_cwd = false,
     window_style = "",
+    window_border = "single",
+    relative = "win",
 })
 
 -- File directory exploration
