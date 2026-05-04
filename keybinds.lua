@@ -8,6 +8,10 @@ end
 -- 'kj' for exit
 vim.keymap.set( { "i", "v" }, "kj", "<Esc>" )
 
+-- escapes for enter normal mode in terminal
+vim.keymap.set("t", "kj", "<c-\\><c-n>", { desc = "Enter normal mode in terminal" })
+vim.keymap.set("t", "<esc>", "<c-\\><c-n>", { desc = "Enter normal mode in terminal" })
+
 -- 'vse' to vsplit and explore
 create_user_command("Vse", "vsplit | Explore", "Vsplits and exits to explorer")
 

@@ -1,14 +1,17 @@
+
+local function create_shortcut(dir, cmd, descr)
+    local little_cmd = cmd:lower()
+    vim.api.nvim_create_user_command(cmd, "Explore " .. dir, { desc = descr })
+    vim.cmd("cnoreabbrev <expr> " .. little_cmd .. " getcmdtype() == ':' && getcmdline() ==# '" .. little_cmd .. "' ? '" .. cmd .. "' : '" .. little_cmd .. "'")
+end
+
+
 -- Tconfig
-tconfig = "~/.config/nvim/lua/--T/"
-vim.api.nvim_create_user_command("Tconfig", "Explore " .. tconfig, { desc = "Explores the nvim/lua/--T directory" })
-vim.cmd("cnoreabbrev <expr> tconfig getcmdtype() == ':' && getcmdline() ==# 'tconfig' ? 'Tconfig' : 'tconfig'")
+create_shortcut("~/.config/nvim/lua/--T/", "Tconfig", "Explores the nvim/lua/--T directory")
 
 -- Pythondir
-pythondir = "~/Desktop/Coding/Python/"
-vim.api.nvim_create_user_command("Pythondir", "Explore " .. pythondir, { desc = "Explores the Coding/Python directory" })
-vim.cmd("cnoreabbrev <expr> pythondir getcmdtype() == ':' && getcmdline() ==# 'pythondir' ? 'Pythondir' : 'pythondir'")
+create_shortcut("~/Desktop/Coding/Python/", "Pythondir", "Explores the Coding/Python directory")
+create_shortcut("~/Desktop/Coding/Python/", "Pydir", "Explores the Coding/Python directory")
 
 -- Cdir
-cdir = "~/Desktop/Coding/C/"
-vim.api.nvim_create_user_command("Cdir", "Explore " .. cdir, { desc = "Explores the Coding/C directory" })
-vim.cmd("cnoreabbrev <expr> cdir getcmdtype() == ':' && getcmdline() ==# 'cdir' ? 'Cdir' : 'cdir'")
+create_shortcut("~/Desktop/Coding/C/", "Cdir","Explores the Coding/C directory")
