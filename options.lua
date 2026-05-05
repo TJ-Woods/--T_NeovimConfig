@@ -74,3 +74,18 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Disable showing mode (mini statusline does this instead)
 vim.o.showmode = false
+
+-- Folding
+vim.o.foldenable = true
+vim.o.foldmethod = "manual"
+vim.o.foldtext = ""
+vim.o.foldlevelstart = 99
+vim.o.foldcolumn="4"
+vim.opt.fillchars = {
+  fold = " ",
+  foldopen = "󰅀",
+  foldclose = "󰅂",
+  foldinner = " ",
+  foldsep = " ",
+}
+
