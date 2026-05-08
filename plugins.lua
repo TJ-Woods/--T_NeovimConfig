@@ -38,9 +38,8 @@ require("RunFile").setup({
 -- Sticky notes
 require("StickyNotes").setup({
     use_cwd = false,
-    window_style = "",
-    window_border = "single",
     relative = "win",
+    show_foldcolumn = false,
 })
 
 -- File directory exploration
