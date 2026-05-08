@@ -77,7 +77,8 @@ vim.o.showmode = false
 
 -- Folding
 vim.o.foldenable = true
-vim.o.foldmethod = "manual"
+vim.o.foldmethod = "indent"
+vim.o.foldnestmax = 8
 vim.o.foldtext = ""
 vim.o.foldlevelstart = 99
 vim.o.foldcolumn="4"
@@ -89,3 +90,4 @@ vim.opt.fillchars = {
   foldsep = " ",
 }
 
+-- LSP autocomplete
