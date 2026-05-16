@@ -3,6 +3,19 @@ local function gh(owner, name)
     return "https://github.com/" .. owner .. "/" .. name
 end
 
+local function gh_branch(name, target_branch)
+    local dir = vim.fn.stdpath("data") .. "/site/pack/core/opt/" .. name
+    -- Get current branch
+    local curr_branch = vim.fn.system({ "git", "-C", dir, "branch", "--show-current" })
+    curr_branch = string.gsub(curr_branch, "%s+", "")
+
+    -- Switch if not on target_branch
+    if curr_branch ~= target_branch then
+        vim.fn.system({ "git", "-C", dir, "checkout", target_branch })
+        vim.notify("Switched " .. name .. " to " .. target_branch, vim.log.levels.INFO)
+    end
+end
+
 vim.pack.add({
     gh("nvim-lua", "plenary.nvim"),             -- Dependancy for many plugins
     gh("nvim-treesitter", "nvim-treesitter"),   -- Treesitter
@@ -12,15 +25,15 @@ vim.pack.add({
     gh("uga-rosa", "ccc.nvim"),                 -- #000000 rgb(0, 0, 0) <-- This
     gh("linux-cultist", "venv-selector.nvim"),  -- Allows python venv selection
     gh("neogitorg", "neogit"),                  -- Git interface
-    gh("folke", "todo-comments.nvim"),          -- TODO: <-- this
+    gh("folke", "todo-comments.nvim"),          --  TODO: <-- this
     gh("neovim", "nvim-lspconfig"),             -- LSP manager
     gh("williamboman", "mason.nvim"),           -- "
     gh("williamboman", "mason-lspconfig.nvim"), -- "
     gh("nvim-mini", "mini.statusline"),         -- Nicer Status line
     gh("nvim-mini", "mini.icons"),              -- Nicer icons
-    gh("TJ-Woods", "nvim-RunFile"),             -- Run files with the terminal
-    gh("OXY2DEV", "markview.nvim"),             -- Markdown Rendering
     gh("nvim-mini", "mini.files"),              -- Better file directory exploration
+    gh("OXY2DEV", "markview.nvim"),             -- Markdown Rendering
+    gh("TJ-Woods", "nvim-RunFile"),             -- Run files with the terminal
     gh("TJ-Woods", "nvim-StickyNotes"),         -- Sticky Notes
 })
 
@@ -31,6 +44,7 @@ vim.cmd("packloadall")
 vim.cmd("colorscheme vscode")
 
 -- Run files with the terminal
+gh_branch("nvim-RunFile", "dev")
 require("RunFile").setup({
     cleanup = true,
     true_terminal = false,
