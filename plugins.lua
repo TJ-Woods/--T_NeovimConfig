@@ -1,19 +1,15 @@
 
 local function gh(owner, name)
+    -- GitHub link
     return "https://github.com/" .. owner .. "/" .. name
 end
 
-local function gh_branch(name, target_branch)
-    local dir = vim.fn.stdpath("data") .. "/site/pack/core/opt/" .. name
-    -- Get current branch
-    local curr_branch = vim.fn.system({ "git", "-C", dir, "branch", "--show-current" })
-    curr_branch = string.gsub(curr_branch, "%s+", "")
-
-    -- Switch if not on target_branch
-    if curr_branch ~= target_branch then
-        vim.fn.system({ "git", "-C", dir, "checkout", target_branch })
-        vim.notify("Switched " .. name .. " to " .. target_branch, vim.log.levels.INFO)
-    end
+local function ghb(owner, name, branch)
+    -- GitHub Branch Link
+    return {
+        src = "https://github.com/" .. owner .. "/" .. name,
+        version = branch
+    }
 end
 
 vim.pack.add({
@@ -33,7 +29,7 @@ vim.pack.add({
     gh("nvim-mini", "mini.icons"),              -- Nicer icons
     gh("nvim-mini", "mini.files"),              -- Better file directory exploration
     gh("OXY2DEV", "markview.nvim"),             -- Markdown Rendering
-    gh("TJ-Woods", "nvim-RunFile"),             -- Run files with the terminal
+    ghb("TJ-Woods", "nvim-RunFile", "dev"),     -- Run files with the terminal
     gh("TJ-Woods", "nvim-StickyNotes"),         -- Sticky Notes
 })
 
@@ -44,7 +40,6 @@ vim.cmd("packloadall")
 vim.cmd("colorscheme vscode")
 
 -- Run files with the terminal
-gh_branch("nvim-RunFile", "dev")
 require("RunFile").setup({
     cleanup = true,
     true_terminal = false,
