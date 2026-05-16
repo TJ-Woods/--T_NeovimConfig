@@ -9,7 +9,7 @@ vim.pack.add({
     gh("mofiqul", "vscode.nvim"),               -- Colour theme
     gh("mbbill", "undotree"),                   -- Undotree
     gh("nmac427", "guess-indent.nvim"),         -- Helps with autoindentation
-    gh("uga-rosa", "ccc.nvim"),                 -- Colour picker and display e.g. #000000 rgb(0, 0, 0) <-- This
+    gh("uga-rosa", "ccc.nvim"),                 -- #000000 rgb(0, 0, 0) <-- This
     gh("linux-cultist", "venv-selector.nvim"),  -- Allows python venv selection
     gh("neogitorg", "neogit"),                  -- Git interface
     gh("folke", "todo-comments.nvim"),          -- TODO: <-- this
@@ -19,7 +19,7 @@ vim.pack.add({
     gh("nvim-mini", "mini.statusline"),         -- Nicer Status line
     gh("nvim-mini", "mini.icons"),              -- Nicer icons
     gh("TJ-Woods", "nvim-RunFile"),             -- Run files with the terminal
-    gh("MeanderingProgrammer", "render-markdown.nvim"), -- Markdown Rendering
+    gh("OXY2DEV", "markview.nvim"),             -- Markdown Rendering
     gh("nvim-mini", "mini.files"),              -- Better file directory exploration
     gh("TJ-Woods", "nvim-StickyNotes"),         -- Sticky Notes
 })
@@ -40,13 +40,18 @@ require("StickyNotes").setup({
     use_cwd = false,
     relative = "win",
     show_foldcolumn = false,
+    exit_key = "<esc>",
 })
 
 -- File directory exploration
 require("mini.files").setup()
 
 -- Markdown Rendering
-require("render-markdown").setup()
+require("markview").setup({
+    preview = {
+        icon_provider = "mini",
+    },
+})
 
 -- Mini statusline
 require("mini.statusline").setup()
@@ -56,7 +61,6 @@ require("guess-indent").setup()
 
 -- Enable the following
 -- TODO: To Do - This is something that needs to be done
---  Thing to do is also highlighted if next line is a comment
 -- NOTE: Note - this is a note
 -- OPTIMIZE: Performance - Optimise this
 -- TEST: Test - Test this section / this is a test
