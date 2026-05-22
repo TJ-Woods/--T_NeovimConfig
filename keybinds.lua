@@ -1,3 +1,12 @@
+-- if <element> in <list>
+local function has(tabl, val)
+    for _, value in ipairs(tabl) do
+        if value == val then
+            return true
+        end
+    end
+    return false
+end
 -- Create user command lowercase bind
 local function create_user_command(title, cmd, descr)
     local little_title = title:lower()
@@ -113,7 +122,7 @@ local function auto_quote(quote_char)
   end
 end
 
--- Expand <Return> Inside Brackets
+-- Expand <CR> Inside Brackets
 local function expand_enter()
     local col = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.api.nvim_get_current_line()
@@ -124,14 +133,14 @@ local function expand_enter()
     local index = string.find(start_brackets, char_prev, 1, true)
 
     if index and string.sub(end_brackets, index, index) == char_next then
-        return "<return><return><up><tab>"
+        return "<CR><CR><up><tab>"
     else
-        return "<return>"
+        return "<CR>"
     end
 end
 
 -- Keymaps
-vim.keymap.set("i", "<return>", function() return expand_enter() end, { desc = "Expand <Return> inside brackets", expr = true, silent = true})
+vim.keymap.set("i", "<CR>", function() return expand_enter() end, { desc = "Expand <CR> inside brackets", expr = true, silent = true})
 vim.keymap.set("i", "(", "()<left>", { desc = "Close Bracket" })
 vim.keymap.set("i", "[", "[]<left>", { desc = "Close Square Bracket" })
 vim.keymap.set("i", "{", "{}<left>", { desc = "Close Curly Bracket" })
@@ -142,10 +151,82 @@ vim.keymap.set("i", "`", function() return auto_quote("`") end, { desc = "Close 
 vim.keymap.set("i", ")", function() return skip_closing(")") end, { desc = "Allow Bracket Type-over", expr = true, silent = true})
 vim.keymap.set("i", "]", function() return skip_closing("]") end, { desc = "Allow Square Bracket Type-over", expr = true, silent = true})
 vim.keymap.set("i", "}", function() return skip_closing("}") end, { desc = "Allow Curly Bracket Type-over", expr = true, silent = true})
-vim.api.nvim_create_autocmd( "BufEnter", {
-    pattern = { "*.html" },
+
+-- HTML Specific Keybinds
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "html",
     callback = function()
-        vim.keymap.set("i", "<", "<lt>><left>", { desc = "Close Angle Bracket" , buf=0})
-        vim.keymap.set("i", ">", function() return skip_closing(">") end, { expr = true, silent = true})
+        vim.keymap.set("i", "<", "<lt>><left>", { desc = "Close Angle Bracket", buffer = true })
+
+        vim.keymap.set("i", ">", function()
+            local col = vim.api.nvim_win_get_cursor(0)[2]
+            local line = vim.api.nvim_get_current_line()
+
+            local char_under_cursor = string.sub(line, col + 1, col + 1)
+            local is_writeover = (char_under_cursor == ">")
+
+            local before_cursor = line:sub(1, col)
+            local open_bracket = before_cursor:match(".*<")
+
+            if not open_bracket then
+                return is_writeover and "<Right>" or ">"
+            end
+
+            local tag_content = before_cursor:sub(#open_bracket + 1)
+            local tag_name = tag_content:match("^([%w%-]+)")
+
+            local invld_strs = {
+                "area", "base", "br", "col", "embed", "hr", "img",
+                "input", "link", "meta", "param", "source", "track", "wbr"
+            }
+
+            if tag_name and not has(invld_strs, tag_name) then
+                vim.schedule(function()
+                    local closing_tag = "</" .. tag_name .. ">"
+                    vim.api.nvim_put({ closing_tag }, "c", false, true)
+
+                    local move_left = vim.api.nvim_replace_termcodes(string.rep("<Left>", #closing_tag), true, false, true)
+                    vim.api.nvim_feedkeys(move_left, "n", true)
+                end)
+            end
+
+            if is_writeover then
+                return "<Right>"
+            else
+                return ">"
+            end
+
+        end, { expr = true, silent = true, buffer = true, desc = "Smart HTML close tag" })
+    end
+})
+
+-- Expand <CR>
+local function html_expand_return()
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local line = vim.api.nvim_get_current_line()
+    local char_prev = string.sub(line, col, col)
+    local char_next = string.sub(line, col + 1, col + 2)
+
+    if char_prev == ">" and char_next == "</" then
+        return "<CR><Esc>O"
+    else
+        return "<CR>"
+    end
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "html" },
+    callback = function(ev)
+        vim.keymap.set(
+            "i",
+            "<CR>",
+            html_expand_return,
+            {
+                desc = "Expand return on HTML tags",
+                expr = true,
+                silent = true,
+                buffer = ev.buf
+            }
+        )
     end
 })
