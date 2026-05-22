@@ -41,8 +41,13 @@ vim.cmd("colorscheme vscode")
 
 -- Run files with the terminal
 require("RunFile").setup({
-    cleanup = true,
+    split = "split",
     true_terminal = false,
+    py = {
+        auto_close = true,
+        true_terminal = true,
+        terminal_size = 30,
+    },
 })
 
 -- Sticky notes
