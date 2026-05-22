@@ -14,4 +14,7 @@ create_shortcut("~/Desktop/Coding/Python/", "Pythondir", "Explores the Coding/Py
 create_shortcut("~/Desktop/Coding/Python/", "Pydir", "Explores the Coding/Python directory")
 
 -- Cdir
-create_shortcut("~/Desktop/Coding/C/", "Cdir","Explores the Coding/C directory")
+create_shortcut("~/Desktop/Coding/C/", "Cdir", "Explores the Coding/C directory")
+
+-- Plugins
+create_shortcut("~/Desktop/Coding/Lua/Neovim/Plugins/", "Plugin", "Explores the Lua/Neovim/Plugins directory")

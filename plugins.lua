@@ -30,7 +30,7 @@ vim.pack.add({
     gh("nvim-mini", "mini.files"),              -- Better file directory exploration
     gh("OXY2DEV", "markview.nvim"),             -- Markdown Rendering
     ghb("TJ-Woods", "nvim-RunFile", "dev"),     -- Run files with the terminal
-    gh("TJ-Woods", "nvim-StickyNotes"),         -- Sticky Notes
+    ghb("TJ-Woods", "nvim-StickyNotes", "dev"), -- Sticky Notes
 })
 
 -- Start all loaded packages/plugins
@@ -50,7 +50,7 @@ require("StickyNotes").setup({
     use_cwd = false,
     relative = "win",
     show_foldcolumn = false,
-    exit_key = "<esc>",
+    exit_key = "q",
 })
 
 -- File directory exploration
