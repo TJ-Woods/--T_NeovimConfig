@@ -1,6 +1,6 @@
--- if <element> in <list>
-local function has(tabl, val)
-    for _, value in ipairs(tabl) do
+-- if <table> has <value>
+local function has(tbl, val)
+    for _, value in ipairs(tbl) do
         if value == val then
             return true
         end
@@ -20,6 +20,10 @@ vim.keymap.set( { "i", "v" }, "kj", "<Esc>" )
 -- escapes for enter normal mode in terminal
 vim.keymap.set("t", "kj", "<c-\\><c-n>", { desc = "Enter normal mode in terminal" })
 vim.keymap.set("t", "<esc>", "<c-\\><c-n>", { desc = "Enter normal mode in terminal" })
+
+-- '<leader>vs' '<leader>vh' for vsplit and split
+vim.keymap.set("n", "<leader>vs", "<cmd>vsplit<CR>", { desc = "vsplit" })
+vim.keymap.set("n", "<leader>vh", "<cmd>split<CR>", { desc = "split" })
 
 -- 'vse' to vsplit and explore
 create_user_command("Vse", "vsplit | Explore", "Vsplits and exits to explorer")
@@ -230,3 +234,9 @@ vim.api.nvim_create_autocmd("FileType", {
         )
     end
 })
+
+-- Vim-Tmux navigation integration keys
+vim.keymap.set('n', '<C-h>', '<cmd>TmuxNavigateLeft<cr>', { silent = true })
+vim.keymap.set('n', '<C-j>', '<cmd>TmuxNavigateDown<cr>', { silent = true })
+vim.keymap.set('n', '<C-k>', '<cmd>TmuxNavigateUp<cr>', { silent = true })
+vim.keymap.set('n', '<C-l>', '<cmd>TmuxNavigateRight<cr>', { silent = true })

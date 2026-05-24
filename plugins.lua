@@ -1,4 +1,3 @@
-
 local function gh(owner, name)
     -- GitHub link
     return "https://github.com/" .. owner .. "/" .. name
@@ -31,6 +30,7 @@ vim.pack.add({
     gh("OXY2DEV", "markview.nvim"),             -- Markdown Rendering
     ghb("TJ-Woods", "nvim-RunFile", "dev"),     -- Run files with the terminal
     ghb("TJ-Woods", "nvim-StickyNotes", "dev"), -- Sticky Notes
+    gh("christoomey", "vim-tmux-navigator"),    -- Vim-Tmux navigation integration
 })
 
 -- Start all loaded packages/plugins
@@ -101,7 +101,7 @@ require("ccc").setup({
     highlighter = {
         auto_enable = true,
         lsp = true,
-    },
+    }
 })
 
 -- Neogit
@@ -115,7 +115,6 @@ require("mason-lspconfig").setup({
         function (server_name)
             require("lspconfig")[server_name].setup({})
         end,
-
         ["lua_ls"] = function ()
             require("lspconfig").lua_ls.setup({
                 settings = {
