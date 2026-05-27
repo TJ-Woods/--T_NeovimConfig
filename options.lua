@@ -22,7 +22,7 @@ vim.o.signcolumn = "yes"
 vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time (ms)
-vim.o.timeoutlen = 100
+vim.o.timeoutlen = 200
 
 -- Set splitting directions
 vim.o.splitright = true
@@ -52,9 +52,9 @@ vim.o.smartindent = true
 
 -- Enable treesitter upon file open
 vim.api.nvim_create_autocmd("Filetype", {
-	callback = function()
-		pcall(vim.treesitter.start)
-	end,
+    callback = function()
+        pcall(vim.treesitter.start)
+    end,
 })
 
 -- Enable true colour
@@ -66,10 +66,10 @@ vim.g.undotree_SplitWidth = 30
 
 -- Enable yank highlighting for clarity
 vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
-	callback = function()
-		vim.hl.on_yank()
-	end,
+    desc = "Highlight when yanking (copying) text",
+    callback = function()
+        vim.hl.on_yank()
+    end,
 })
 
 -- Disable showing mode (mini statusline does this instead)
@@ -90,4 +90,5 @@ vim.opt.fillchars = {
   foldsep = " ",
 }
 
--- LSP autocomplete
+-- Add border to popup windows
+vim.o.winborder = "rounded"

@@ -30,7 +30,7 @@ vim.pack.add({
     gh("OXY2DEV", "markview.nvim"),             -- Markdown Rendering
     ghb("TJ-Woods", "nvim-RunFile", "dev"),     -- Run files with the terminal
     ghb("TJ-Woods", "nvim-StickyNotes", "dev"), -- Sticky Notes
-    gh("christoomey", "vim-tmux-navigator"),    -- Vim-Tmux navigation integration
+    gh("mrjones2014", "smart-splits.nvim"),     -- nvim-tmux navigation integration
 })
 
 -- Start all loaded packages/plugins
@@ -57,6 +57,20 @@ require("StickyNotes").setup({
     show_foldcolumn = false,
     exit_key = "q",
 })
+
+-- Nvim-Tmux navigation integration
+require("smart-splits").setup({
+    wrap_at_cycle = false,
+    at_edge = "stop",
+    default_amount = {
+        left = 3,
+        right = 3,
+        up = 1,
+        down = 1,
+    },
+    disable_multiplexer_nav_when_zoomed = true,
+})
+
 
 -- File directory exploration
 require("mini.files").setup()

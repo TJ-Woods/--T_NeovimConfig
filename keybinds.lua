@@ -14,7 +14,7 @@ local function create_user_command(title, cmd, descr)
     vim.cmd("cnoreabbrev <expr> " .. little_title .. " getcmdtype() == ':' && getcmdline() ==# '" .. little_title .. "' ? '" .. title .. "' : '" .. little_title .. "'")
 end
 
--- 'kj' for exit
+-- 'kj' for exit insert/visual mode
 vim.keymap.set( { "i", "v" }, "kj", "<Esc>" )
 
 -- escapes for enter normal mode in terminal
@@ -22,8 +22,8 @@ vim.keymap.set("t", "kj", "<c-\\><c-n>", { desc = "Enter normal mode in terminal
 vim.keymap.set("t", "<esc>", "<c-\\><c-n>", { desc = "Enter normal mode in terminal" })
 
 -- '<leader>vs' '<leader>vh' for vsplit and split
-vim.keymap.set("n", "<leader>vs", "<cmd>vsplit<CR>", { desc = "vsplit" })
-vim.keymap.set("n", "<leader>vh", "<cmd>split<CR>", { desc = "split" })
+vim.keymap.set("n", "<leader>sv", "<cmd>vsplit<CR>", { desc = "vsplit" })
+vim.keymap.set("n", "<leader>sh", "<cmd>split<CR>", { desc = "split" })
 
 -- 'vse' to vsplit and explore
 create_user_command("Vse", "vsplit | Explore", "Vsplits and exits to explorer")
@@ -31,24 +31,10 @@ create_user_command("Vse", "vsplit | Explore", "Vsplits and exits to explorer")
 -- 'we' to save and explore
 create_user_command("We", "write | Explore", "Writes and exits to explorer")
 
--- '<C-#>' to move between splits (#= hjkl)
-vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move cursor to window left" })
-vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move cursor to window down" })
-vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move cursor to window up" })
-vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move cursor to window right" })
-
--- Remove NETRW <C-l> keymap
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "netrw",
-    callback = function()
-        vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { buffer = true })
-    end
-})
-
 -- '<esc>' to escape hl
 vim.keymap.set("n", "<Esc>", "<Cmd>nohl<Cr>", { desc = "Escape hl" })
 
--- '<A-#>' to move selected (#= hjkl)
+-- '<A-#>' to move selected (#= jk)
 vim.keymap.set("n", "<A-j>", ":m .+1<Cr>==", { desc = "Move current line down"})
 vim.keymap.set("n", "<A-k>", ":m .-2<Cr>==", { desc = "Move current line up"})
 vim.keymap.set("v", "<A-j>", ":m '>+1<Cr>gv=gv", { desc = "Move selected down"})
@@ -235,8 +221,27 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 })
 
--- Vim-Tmux navigation integration keys
-vim.keymap.set('n', '<C-h>', '<cmd>TmuxNavigateLeft<cr>', { silent = true })
-vim.keymap.set('n', '<C-j>', '<cmd>TmuxNavigateDown<cr>', { silent = true })
-vim.keymap.set('n', '<C-k>', '<cmd>TmuxNavigateUp<cr>', { silent = true })
-vim.keymap.set('n', '<C-l>', '<cmd>TmuxNavigateRight<cr>', { silent = true })
+-- Nvim-Tmux navigation integration --
+local smart_splits = require('smart-splits')
+-- Moving between splits/panes
+vim.keymap.set('n', '<C-h>', function()
+  smart_splits.move_cursor_left({ at_edge = "stop" })
+end, { desc = "Go to left window" })
+
+vim.keymap.set('n', '<C-j>', function()
+  smart_splits.move_cursor_down({ at_edge = "stop" })
+end, { desc = "Go to bottom window" })
+
+vim.keymap.set('n', '<C-k>', function()
+  smart_splits.move_cursor_up({ at_edge = "stop" })
+end, { desc = "Go to top window" })
+
+vim.keymap.set('n', '<C-l>', function()
+  smart_splits.move_cursor_right({ loop_at_edge = false })
+end, { desc = "Go to right window" })
+
+-- Resizing splits/panes
+vim.keymap.set("n", "<C-Left>",  function() smart_splits.resize_left() end,  { desc = "Resize window left" })
+vim.keymap.set("n", "<C-Down>",  function() smart_splits.resize_down() end,  { desc = "Resize window down" })
+vim.keymap.set("n", "<C-Up>",    function() smart_splits.resize_up() end,    { desc = "Resize window up" })
+vim.keymap.set("n", "<C-Right>", function() smart_splits.resize_right() end, { desc = "Resize window right" })
