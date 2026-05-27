@@ -60,10 +60,6 @@ vim.api.nvim_create_autocmd("Filetype", {
 -- Enable true colour
 vim.opt.termguicolors = true
 
--- Undotree config
-vim.g.undotree_WindowLayout = 2
-vim.g.undotree_SplitWidth = 30
-
 -- Enable yank highlighting for clarity
 vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking (copying) text",

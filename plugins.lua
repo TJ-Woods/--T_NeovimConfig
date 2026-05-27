@@ -146,9 +146,6 @@ require("ccc").setup({
     }
 })
 
--- Neogit
-require("neogit").setup()
-
 -- Mason.nvim Setup (LSP manager)
 require("mason").setup()
 require("mason-lspconfig").setup({

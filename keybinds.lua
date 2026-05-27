@@ -55,12 +55,6 @@ create_user_command("Vsplt", "vsplit | terminal", "vsplits and opens terminal")
 vim.keymap.set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "yank to system cliyboard" })
 
--- Undotree toggle
-vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle UndoTree" })
-
--- ngit auto open Neogit cwd=%
-create_user_command("Ngit", "Neogit cwd=%", "Opens Neogit with the current working directory")
-
 -- '<leader>v' for VenvSelect
 vim.keymap.set("n", "<leader>v", "<cmd>VenvSelect<CR>", { desc = "Opens the VenvSelect menu" })
 
