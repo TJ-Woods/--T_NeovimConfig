@@ -1,0 +1,34 @@
+# --T_NeovimConfig
+My personal Neovim configuration
+
+----------
+
+# Plugins with vim.pack
+* mofiqul/vscode.nvim
+    - dark vs-code-like theme
+* mbbill/undotree
+    - Undo tree
+* nmac427/guess-indent.nvim
+    - Auto indentation guessing
+* uga-rosa/ccc.nvim
+    - Color picking and highlighting
+* linux-cultist/venv-selector.nvim
+    - Virtual environment selectors for python
+* neogitorg/neogit
+    - Git interface
+* folke/todo-comments.nvim
+    - Highlighted todo comments
+* nvim-mini/mini.statusline
+    - Better status line
+* nvim-mini/mini.icons
+    - Icon provider
+* nvim-mini/mini.files
+    - File explorer with tree
+* OXY2DEV/markview.nvim
+    - Local markdown file rendering
+* TJ-Woods/nvim-RunFile
+    - Run files with the inbuilt terminal
+* TJ-Woods/nvim-StickyNotes
+    - per-workspace sticky notes
+* mrjones2014/smart-splits.nvim
+    - Tmux navigation compatibility

@@ -1,36 +1,36 @@
-local function gh(owner, name)
+local function gh(repo)
     -- GitHub link
-    return "https://github.com/" .. owner .. "/" .. name
+    return "https://github.com/" .. repo
 end
 
-local function ghb(owner, name, branch)
+local function ghb(repo, branch)
     -- GitHub Branch Link
     return {
-        src = "https://github.com/" .. owner .. "/" .. name,
+        src = "https://github.com/" .. repo,
         version = branch
     }
 end
 
 vim.pack.add({
-    gh("nvim-lua", "plenary.nvim"),             -- Dependancy for many plugins
-    gh("nvim-treesitter", "nvim-treesitter"),   -- Treesitter
-    gh("mofiqul", "vscode.nvim"),               -- Colour theme
-    gh("mbbill", "undotree"),                   -- Undotree
-    gh("nmac427", "guess-indent.nvim"),         -- Helps with autoindentation
-    gh("uga-rosa", "ccc.nvim"),                 -- #000000 rgb(0, 0, 0) <-- This
-    gh("linux-cultist", "venv-selector.nvim"),  -- Allows python venv selection
-    gh("neogitorg", "neogit"),                  -- Git interface
-    gh("folke", "todo-comments.nvim"),          --  TODO: <-- this
-    gh("neovim", "nvim-lspconfig"),             -- LSP manager
-    gh("williamboman", "mason.nvim"),           -- "
-    gh("williamboman", "mason-lspconfig.nvim"), -- "
-    gh("nvim-mini", "mini.statusline"),         -- Nicer Status line
-    gh("nvim-mini", "mini.icons"),              -- Nicer icons
-    gh("nvim-mini", "mini.files"),              -- Better file directory exploration
-    gh("OXY2DEV", "markview.nvim"),             -- Markdown Rendering
-    ghb("TJ-Woods", "nvim-RunFile", "dev"),     -- Run files with the terminal
-    ghb("TJ-Woods", "nvim-StickyNotes", "dev"), -- Sticky Notes
-    gh("mrjones2014", "smart-splits.nvim"),     -- nvim-tmux navigation integration
+    gh("nvim-lua/plenary.nvim"),             -- Dependancy for many plugins
+    gh("nvim-treesitter/nvim-treesitter"),   -- Treesitter
+    gh("mofiqul/vscode.nvim"),               -- Colour theme
+    gh("mbbill/undotree"),                   -- Undotree
+    gh("nmac427/guess-indent.nvim"),         -- Helps with autoindentation
+    gh("uga-rosa/ccc.nvim"),                 -- #000000 rgb(0, 0, 0) <-- This
+    gh("linux-cultist/venv-selector.nvim"),  -- Allows python venv selection
+    gh("neogitorg/neogit"),                  -- Git interface
+    gh("folke/todo-comments.nvim"),          --  TODO: <-- this
+    gh("neovim/nvim-lspconfig"),             -- LSP manager
+    gh("williamboman/mason.nvim"),           -- "
+    gh("williamboman/mason-lspconfig.nvim"), -- "
+    gh("nvim-mini/mini.statusline"),         -- Nicer Status line
+    gh("nvim-mini/mini.icons"),              -- Nicer icons
+    gh("nvim-mini/mini.files"),              -- Better file directory exploration
+    gh("OXY2DEV/markview.nvim"),             -- Markdown Rendering
+    ghb("TJ-Woods/nvim-RunFile", "dev"),     -- Run files with the terminal
+    ghb("TJ-Woods/nvim-StickyNotes", "dev"), -- Sticky Notes
+    gh("mrjones2014/smart-splits.nvim"),     -- nvim-tmux navigation integration
 })
 
 -- Start all loaded packages/plugins
