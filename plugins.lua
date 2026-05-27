@@ -15,16 +15,14 @@ vim.pack.add({
     gh("nvim-lua/plenary.nvim"),             -- Dependancies
     gh("MunifTanjim/nui.nvim"),              -- "
     gh("nvim-treesitter/nvim-treesitter"),   -- "
-    gh("mofiqul/vscode.nvim"),               -- Colour theme
-    gh("mbbill/undotree"),                   -- Undotree
-    gh("nmac427/guess-indent.nvim"),         -- Helps with autoindentation
-    gh("uga-rosa/ccc.nvim"),                 -- #000000 rgb(0, 0, 0) <-- This
-    gh("linux-cultist/venv-selector.nvim"),  -- Allows python venv selection
-    gh("neogitorg/neogit"),                  -- Git interface
-    gh("folke/todo-comments.nvim"),          --  TODO: <-- this
     gh("neovim/nvim-lspconfig"),             -- LSP manager
     gh("williamboman/mason.nvim"),           -- "
     gh("williamboman/mason-lspconfig.nvim"), -- "
+    gh("mofiqul/vscode.nvim"),               -- Colour theme
+    gh("mbbill/undotree"),                   -- Undotree
+    gh("uga-rosa/ccc.nvim"),                 -- #000000 rgb(0, 0, 0) <-- This
+    gh("linux-cultist/venv-selector.nvim"),  -- Allows python venv selection
+    gh("folke/todo-comments.nvim"),          --  TODO: <-- this
     gh("nvim-mini/mini.statusline"),         -- Nicer Status line
     gh("nvim-mini/mini.icons"),              -- Nicer icons
     gh("nvim-neo-tree/neo-tree.nvim"),       -- Better File Explorer
@@ -97,7 +95,7 @@ require("neo-tree").setup({
                 -- Status Type
                 untracked = "?",
                 ignored = "/",
-                unstaged = "o",
+                unstaged = "u",
                 staged = "✓",
                 conflict = "!",
             },
@@ -116,7 +114,7 @@ require("markview").setup({
 require("mini.statusline").setup()
 
 -- Guess Indent
-require("guess-indent").setup()
+-- require("guess-indent").setup()
 
 -- Enable the following
 -- TODO: To Do - This is something that needs to be done

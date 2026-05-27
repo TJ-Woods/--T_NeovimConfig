@@ -8,22 +8,18 @@ My personal Neovim configuration
     - dark vs-code-like theme
 * mbbill/undotree
     - Undo tree
-* nmac427/guess-indent.nvim
-    - Auto indentation guessing
 * uga-rosa/ccc.nvim
     - Color picking and highlighting
 * linux-cultist/venv-selector.nvim
     - Virtual environment selectors for python
-* neogitorg/neogit
-    - Git interface
 * folke/todo-comments.nvim
     - Highlighted todo comments
 * nvim-mini/mini.statusline
     - Better status line
 * nvim-mini/mini.icons
     - Icon provider
-* nvim-mini/mini.files
-    - File explorer with tree
+* nvim-neo-tree/neo-tree.nvim
+    - File explorer
 * OXY2DEV/markview.nvim
     - Local markdown file rendering
 * TJ-Woods/nvim-RunFile
