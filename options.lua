@@ -92,3 +92,7 @@ vim.opt.fillchars = {
 
 -- Add border to popup windows
 vim.o.winborder = "rounded"
+
+-- Block Netrw in favour of Neotree
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1

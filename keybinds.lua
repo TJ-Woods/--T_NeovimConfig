@@ -1,3 +1,4 @@
+-- Functions --
 -- if <table> has <value>
 local function has(tbl, val)
     for _, value in ipairs(tbl) do
@@ -14,6 +15,12 @@ local function create_user_command(title, cmd, descr)
     vim.cmd("cnoreabbrev <expr> " .. little_title .. " getcmdtype() == ':' && getcmdline() ==# '" .. little_title .. "' ? '" .. title .. "' : '" .. little_title .. "'")
 end
 
+--- Keybinds ---
+
+-- Neotree --
+vim.keymap.set("n", "<leader>-", "<cmd>Neotree<CR>", { desc = "Opens Neotree" })
+create_user_command("Nt", "Neotree", "Opens Neotree")
+
 -- 'kj' for exit insert/visual mode
 vim.keymap.set( { "i", "v" }, "kj", "<Esc>" )
 
@@ -26,10 +33,10 @@ vim.keymap.set("n", "<leader>sv", "<cmd>vsplit<CR>", { desc = "vsplit" })
 vim.keymap.set("n", "<leader>sh", "<cmd>split<CR>", { desc = "split" })
 
 -- 'vse' to vsplit and explore
-create_user_command("Vse", "vsplit | Explore", "Vsplits and exits to explorer")
+create_user_command("Vse", "vsplit | Neotree", "Vsplits and exits to explorer")
 
 -- 'we' to save and explore
-create_user_command("We", "write | Explore", "Writes and exits to explorer")
+create_user_command("We", "write | Neotree", "Writes and exits to explorer")
 
 -- '<esc>' to escape hl
 vim.keymap.set("n", "<Esc>", "<Cmd>nohl<Cr>", { desc = "Escape hl" })
@@ -53,12 +60,6 @@ vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle UndoTr
 
 -- ngit auto open Neogit cwd=%
 create_user_command("Ngit", "Neogit cwd=%", "Opens Neogit with the current working directory")
-
--- mini.files open shortcut
-vim.keymap.set("n", "<leader>-", "<cmd>lua MiniFiles.open()<CR>", { desc = "Opens the mini.files buffer" })
-
--- mini.files vsplit open
-create_user_command("Vsm", "vsplit | lua MiniFiles.open()", "Opens new vsplit and enters mini.files buffer")
 
 -- '<leader>v' for VenvSelect
 vim.keymap.set("n", "<leader>v", "<cmd>VenvSelect<CR>", { desc = "Opens the VenvSelect menu" })
@@ -123,7 +124,7 @@ local function expand_enter()
     local index = string.find(start_brackets, char_prev, 1, true)
 
     if index and string.sub(end_brackets, index, index) == char_next then
-        return "<CR><CR><up><tab>"
+        return "<CR><Esc>O"
     else
         return "<CR>"
     end
@@ -245,3 +246,4 @@ vim.keymap.set("n", "<C-Left>",  function() smart_splits.resize_left() end,  { d
 vim.keymap.set("n", "<C-Down>",  function() smart_splits.resize_down() end,  { desc = "Resize window down" })
 vim.keymap.set("n", "<C-Up>",    function() smart_splits.resize_up() end,    { desc = "Resize window up" })
 vim.keymap.set("n", "<C-Right>", function() smart_splits.resize_right() end, { desc = "Resize window right" })
+

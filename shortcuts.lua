@@ -1,7 +1,7 @@
 
 local function create_shortcut(dir, cmd, descr)
     local little_cmd = cmd:lower()
-    vim.api.nvim_create_user_command(cmd, "Explore " .. dir, { desc = descr })
+    vim.api.nvim_create_user_command(cmd, "Neotree " .. dir, { desc = descr })
     vim.cmd("cnoreabbrev <expr> " .. little_cmd .. " getcmdtype() == ':' && getcmdline() ==# '" .. little_cmd .. "' ? '" .. cmd .. "' : '" .. little_cmd .. "'")
 end
 

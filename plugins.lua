@@ -12,8 +12,9 @@ local function ghb(repo, branch)
 end
 
 vim.pack.add({
-    gh("nvim-lua/plenary.nvim"),             -- Dependancy for many plugins
-    gh("nvim-treesitter/nvim-treesitter"),   -- Treesitter
+    gh("nvim-lua/plenary.nvim"),             -- Dependancies
+    gh("MunifTanjim/nui.nvim"),              -- "
+    gh("nvim-treesitter/nvim-treesitter"),   -- "
     gh("mofiqul/vscode.nvim"),               -- Colour theme
     gh("mbbill/undotree"),                   -- Undotree
     gh("nmac427/guess-indent.nvim"),         -- Helps with autoindentation
@@ -26,7 +27,7 @@ vim.pack.add({
     gh("williamboman/mason-lspconfig.nvim"), -- "
     gh("nvim-mini/mini.statusline"),         -- Nicer Status line
     gh("nvim-mini/mini.icons"),              -- Nicer icons
-    gh("nvim-mini/mini.files"),              -- Better file directory exploration
+    gh("nvim-neo-tree/neo-tree.nvim"),       -- Better File Explorer
     gh("OXY2DEV/markview.nvim"),             -- Markdown Rendering
     ghb("TJ-Woods/nvim-RunFile", "dev"),     -- Run files with the terminal
     ghb("TJ-Woods/nvim-StickyNotes", "dev"), -- Sticky Notes
@@ -62,7 +63,7 @@ require("StickyNotes").setup({
 require("smart-splits").setup({
     wrap_at_cycle = false,
     at_edge = "stop",
-    default_amount = {
+    default_amounts = {
         left = 3,
         right = 3,
         up = 1,
@@ -73,7 +74,36 @@ require("smart-splits").setup({
 
 
 -- File directory exploration
-require("mini.files").setup()
+require("neo-tree").setup({
+    filesystem = {
+        hijack_newtrw_behavior = "open_current",
+        use_libuv_file_watcher = true,
+        filtered_items = {
+            visible = true,
+            hide_dotfiles = false,
+        },
+    },
+    window = {
+        position = "current",
+    },
+    default_component_configs = {
+        git_status = {
+            symbols = {
+                -- Change Type
+                added = "+",
+                delted = "-",
+                modified = "~",
+                renamed = '"',
+                -- Status Type
+                untracked = "?",
+                ignored = "/",
+                unstaged = "o",
+                staged = "✓",
+                conflict = "!",
+            },
+        },
+    },
+})
 
 -- Markdown Rendering
 require("markview").setup({
