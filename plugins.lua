@@ -19,8 +19,8 @@ vim.pack.add({
     gh("williamboman/mason.nvim"),           -- "
     gh("williamboman/mason-lspconfig.nvim"), -- "
     gh("mofiqul/vscode.nvim"),               -- Colour theme
-    gh("mbbill/undotree"),                   -- Undotree
-    gh("uga-rosa/ccc.nvim"),                 -- #000000 rgb(0, 0, 0) <-- This
+    gh("NMAC427/guess-indent.nvim"),         -- Improved Indentation
+    gh("catgoose/nvim-colorizer.lua"),       -- #000000 rgb(0, 0, 0) <-- This
     gh("linux-cultist/venv-selector.nvim"),  -- Allows python venv selection
     gh("folke/todo-comments.nvim"),          --  TODO: <-- this
     gh("nvim-mini/mini.statusline"),         -- Nicer Status line
@@ -44,7 +44,7 @@ require("RunFile").setup({
     true_terminal = false,
     py = {
         auto_close = true,
-        true_terminal = true,
+        true_terminal = false,
         terminal_size = 30,
     },
 })
@@ -114,7 +114,7 @@ require("markview").setup({
 require("mini.statusline").setup()
 
 -- Guess Indent
--- require("guess-indent").setup()
+require("guess-indent").setup()
 
 -- Enable the following
 -- TODO: To Do - This is something that needs to be done
@@ -137,13 +137,16 @@ require("venv-selector").setup({
     }
 })
 
--- Colour Picker and Display
+-- Colour Display
 vim.opt.termguicolors = true
-require("ccc").setup({
-    highlighter = {
-        auto_enable = true,
-        lsp = true,
-    }
+require("colorizer").setup({
+    options = {
+        parsers = {
+            names = {
+                enable = false,
+            },
+        },
+    },
 })
 
 -- Mason.nvim Setup (LSP manager)

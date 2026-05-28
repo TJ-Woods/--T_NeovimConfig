@@ -124,11 +124,25 @@ local function expand_enter()
     end
 end
 
+local function auto_bracket(bracket)
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local line = vim.api.nvim_get_current_line()
+    local char_next = string.sub(line, col + 1, col + 1)
+    local start_brackets = "([{"
+    local end_brackets = ")]}"
+    local index = string.find(start_brackets, bracket, 1, true)
+
+    if index and (char_next == "" or char_next == " ") then
+        return bracket .. string.sub(end_brackets, index, index) .. "<left>"
+    end
+    return bracket
+end
+
 -- Keymaps
 vim.keymap.set("i", "<CR>", function() return expand_enter() end, { desc = "Expand <CR> inside brackets", expr = true, silent = true})
-vim.keymap.set("i", "(", "()<left>", { desc = "Close Bracket" })
-vim.keymap.set("i", "[", "[]<left>", { desc = "Close Square Bracket" })
-vim.keymap.set("i", "{", "{}<left>", { desc = "Close Curly Bracket" })
+vim.keymap.set("i", "(", function() return auto_bracket("(") end, { desc = "Close Bracket", expr = true, silent = true })
+vim.keymap.set("i", "[", function() return auto_bracket("[") end, { desc = "Close Square Bracket", expr = true, silent = true })
+vim.keymap.set("i", "{", function() return auto_bracket("{") end, { desc = "Close Curly Bracket", expr = true, silent = true })
 vim.keymap.set("i", "'", function() return auto_quote("'") end, { desc = "Close Single Quotes", expr = true, silent = true})
 vim.keymap.set("i", '"', function() return auto_quote('"') end, { desc = "Close Double Quotes", expr = true, silent = true})
 vim.keymap.set("i", "`", function() return auto_quote("`") end, { desc = "Close Backtick Quotes", expr = true, silent = true})
