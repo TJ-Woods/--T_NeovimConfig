@@ -30,6 +30,7 @@ vim.pack.add({
     ghb("TJ-Woods/nvim-RunFile", "dev"),     -- Run files with the terminal
     ghb("TJ-Woods/nvim-StickyNotes", "dev"), -- Sticky Notes
     gh("mrjones2014/smart-splits.nvim"),     -- nvim-tmux navigation integration
+    gh("Aasim-A/scrollEOF.nvim"),            -- Scrolloff at EOF
 })
 
 -- Start all loaded packages/plugins
@@ -109,6 +110,9 @@ require("markview").setup({
         icon_provider = "mini",
     },
 })
+
+-- Scrolloff at EOF
+require("scrollEOF").setup()
 
 -- Mini statusline
 require("mini.statusline").setup()

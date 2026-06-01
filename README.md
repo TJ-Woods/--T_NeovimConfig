@@ -28,3 +28,5 @@ My personal Neovim configuration
     - per-workspace sticky notes
 * mrjones2014/smart-splits.nvim
     - Tmux navigation compatibility
+* Aasim-A/scrollEOF.nvim
+    - Blank lines on EoF for scrolloff

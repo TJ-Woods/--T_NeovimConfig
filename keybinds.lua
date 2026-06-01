@@ -55,6 +55,9 @@ create_user_command("Vsplt", "vsplit | terminal", "vsplits and opens terminal")
 vim.keymap.set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "yank to system cliyboard" })
 
+-- Run Files in the terminal
+vim.keymap.set("n", "<A-r>", "<cmd>RunFile<CR>", { desc = "Run files in the terminal" })
+
 -- '<leader>v' for VenvSelect
 vim.keymap.set("n", "<leader>v", "<cmd>VenvSelect<CR>", { desc = "Opens the VenvSelect menu" })
 
