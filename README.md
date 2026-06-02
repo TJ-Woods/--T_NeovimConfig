@@ -8,8 +8,8 @@ My personal Neovim configuration
     - dark vs-code-like theme
 * mbbill/undotree
     - Undo tree
-* uga-rosa/ccc.nvim
-    - Color picking and highlighting
+* uga-rosa/nvim-colorizer.lua
+    - Color highlighting
 * linux-cultist/venv-selector.nvim
     - Virtual environment selectors for python
 * folke/todo-comments.nvim
@@ -18,6 +18,8 @@ My personal Neovim configuration
     - Better status line
 * nvim-mini/mini.icons
     - Icon provider
+* nvim-mini/mini.move
+    - Move text around with M-hjkl
 * nvim-neo-tree/neo-tree.nvim
     - File explorer
 * OXY2DEV/markview.nvim

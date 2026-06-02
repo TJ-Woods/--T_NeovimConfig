@@ -17,7 +17,7 @@ end
 
 --- Keybinds ---
 
--- Neotree --
+-- Neotree
 vim.keymap.set("n", "<leader>-", "<cmd>Neotree<CR>", { desc = "Opens Neotree" })
 create_user_command("Nt", "Neotree", "Opens Neotree")
 
@@ -40,12 +40,6 @@ create_user_command("We", "write | Neotree", "Writes and exits to explorer")
 
 -- '<esc>' to escape hl
 vim.keymap.set("n", "<Esc>", "<Cmd>nohl<Cr>", { desc = "Escape hl" })
-
--- '<A-#>' to move selected (#= jk)
-vim.keymap.set("n", "<A-j>", ":m .+1<Cr>==", { desc = "Move current line down"})
-vim.keymap.set("n", "<A-k>", ":m .-2<Cr>==", { desc = "Move current line up"})
-vim.keymap.set("v", "<A-j>", ":m '>+1<Cr>gv=gv", { desc = "Move selected down"})
-vim.keymap.set("v", "<A-k>", ":m '<-2<Cr>gv=gv", { desc = "Move selected up"})
 
 -- splt / vsplt to open terminal in split or vsplit window
 create_user_command("Splt", "split | terminal", "splits and opens terminal")

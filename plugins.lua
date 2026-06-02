@@ -25,6 +25,7 @@ vim.pack.add({
     gh("folke/todo-comments.nvim"),          --  TODO: <-- this
     gh("nvim-mini/mini.statusline"),         -- Nicer Status line
     gh("nvim-mini/mini.icons"),              -- Nicer icons
+    gh("nvim-mini/mini.move"),               -- Move text around
     gh("nvim-neo-tree/neo-tree.nvim"),       -- Better File Explorer
     gh("OXY2DEV/markview.nvim"),             -- Markdown Rendering
     ghb("TJ-Woods/nvim-RunFile", "dev"),     -- Run files with the terminal
@@ -110,6 +111,9 @@ require("markview").setup({
         icon_provider = "mini",
     },
 })
+
+-- Move text around
+require("mini.move").setup()
 
 -- Scrolloff at EOF
 require("scrollEOF").setup()
