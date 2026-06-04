@@ -8,6 +8,16 @@ local function has(tbl, val)
     end
     return false
 end
+
+-- if <string> has <char>
+local function has_s(s, char)
+    for c in s:gmatch(".") do
+        if c == char then
+            return true
+        end
+    end
+    return false
+end
 -- Create user command lowercase bind
 local function create_user_command(title, cmd, descr)
     local little_title = title:lower()
@@ -129,14 +139,53 @@ local function auto_bracket(bracket)
     local end_brackets = ")]}"
     local index = string.find(start_brackets, bracket, 1, true)
 
-    if index and (char_next == "" or char_next == " ") then
+    if index and (char_next == "" or char_next == " " or has_s(end_brackets, char_next)) then
         return bracket .. string.sub(end_brackets, index, index) .. "<left>"
     end
     return bracket
 end
 
+local function expand_space()
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local line = vim.api.nvim_get_current_line()
+    local char_next = string.sub(line, col + 1, col + 1)
+    local char_prev = string.sub(line, col, col)
+    local start_brackets = "([{"
+    local end_brackets = ")]}"
+    local index = string.find(start_brackets, char_prev, 1, true)
+
+    if index and char_next == string.sub(end_brackets, index, index) then
+        return " <left> "
+    else
+        return " "
+    end
+end
+
+local function bracket_delete()
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local line = vim.api.nvim_get_current_line()
+    local char_next_next = string.sub(line, col + 2, col + 2)
+    local char_next = string.sub(line, col + 1, col + 1)
+    local char_prev = string.sub(line, col, col)
+    local start_brackets = "([{"
+    local end_brackets = ")]}"
+    local index = string.find(start_brackets, char_prev, 1, true)
+
+    if index and (char_next == string.sub(end_brackets, index, index) or char_next_next == string.sub(end_brackets, index, index)) then
+        vim.print("BS + DEL")
+        return "<BS><DEL>"
+    else
+        vim.print("BS")
+        return "<BS>"
+    end
+end
+
+
+
 -- Keymaps
-vim.keymap.set("i", "<CR>", function() return expand_enter() end, { desc = "Expand <CR> inside brackets", expr = true, silent = true})
+vim.keymap.set("i", "<CR>", expand_enter, { desc = "Expand <CR> inside brackets", expr = true, silent = true})
+vim.keymap.set("i", "<BS>", bracket_delete, { desc = "Delete both brackets if they are next to each other", expr = true, silent = true })
+vim.keymap.set("i", " ", expand_space, { desc = "Expand the space to both sides of an internally spaced bracket", expr = true, silent = true })
 vim.keymap.set("i", "(", function() return auto_bracket("(") end, { desc = "Close Bracket", expr = true, silent = true })
 vim.keymap.set("i", "[", function() return auto_bracket("[") end, { desc = "Close Square Bracket", expr = true, silent = true })
 vim.keymap.set("i", "{", function() return auto_bracket("{") end, { desc = "Close Curly Bracket", expr = true, silent = true })
