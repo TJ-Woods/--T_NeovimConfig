@@ -49,6 +49,11 @@ require("RunFile").setup({
         true_terminal = false,
         terminal_size = 30,
     },
+    c = {
+        auto_close = false,
+        true_terminal = false,
+        cleanup = true,
+    },
 })
 
 -- Sticky notes
