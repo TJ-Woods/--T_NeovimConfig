@@ -172,10 +172,8 @@ local function bracket_delete()
     local index = string.find(start_brackets, char_prev, 1, true)
 
     if index and (char_next == string.sub(end_brackets, index, index) or char_next_next == string.sub(end_brackets, index, index)) then
-        vim.print("BS + DEL")
         return "<BS><DEL>"
     else
-        vim.print("BS")
         return "<BS>"
     end
 end
