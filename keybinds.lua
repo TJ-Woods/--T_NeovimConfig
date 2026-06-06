@@ -171,13 +171,14 @@ local function bracket_delete()
     local end_brackets = ")]}"
     local index = string.find(start_brackets, char_prev, 1, true)
 
-    if index and (char_next == string.sub(end_brackets, index, index) or char_next_next == string.sub(end_brackets, index, index)) then
+    if index and (char_next == string.sub(end_brackets, index, index)) then
         return "<BS><DEL>"
+    elseif index and (char_next == " " and char_next_next == string.sub(end_brackets, index, index)) then
+        return "<BS><DEL><DEL>"
     else
         return "<BS>"
     end
 end
-
 
 
 -- Keymaps
