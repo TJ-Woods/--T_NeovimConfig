@@ -18,6 +18,7 @@ local function has_s(s, char)
     end
     return false
 end
+
 -- Create user command lowercase bind
 local function create_user_command(title, cmd, descr)
     local little_title = title:lower()
@@ -114,6 +115,20 @@ local function auto_quote(quote_char)
   end
 end
 
+local function quote_delete()
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local line = vim.api.nvim_get_current_line()
+    local char_prev = string.sub(line, col, col)
+    local char_next = string.sub(line, col + 1, col + 1)
+    local quotes = "\"'`"
+
+    if has_s(quotes, char_prev) and char_prev == char_next then
+        return "<BS><Del>"
+    else
+        return "<BS>"
+    end
+end
+
 -- Expand <CR> Inside Brackets
 local function expand_enter()
     local col = vim.api.nvim_win_get_cursor(0)[2]
@@ -145,7 +160,7 @@ local function auto_bracket(bracket)
     return bracket
 end
 
-local function expand_space()
+local function expand_bracket_space()
     local col = vim.api.nvim_win_get_cursor(0)[2]
     local line = vim.api.nvim_get_current_line()
     local char_next = string.sub(line, col + 1, col + 1)
@@ -180,21 +195,38 @@ local function bracket_delete()
     end
 end
 
+local function auto_delete()
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local line = vim.api.nvim_get_current_line()
+    local char_prev = string.sub(line, col, col)
+
+    local quotes = "\"'`"
+    local start_brackets = "([{"
+
+    if has_s(quotes, char_prev) then
+        return quote_delete()
+    elseif has_s(start_brackets, char_prev) then
+        return bracket_delete()
+    else
+        return "<BS>"
+    end
+end
+
 
 -- Keymaps
-vim.keymap.set("i", "<CR>", expand_enter, { desc = "Expand <CR> inside brackets", expr = true, silent = true})
-vim.keymap.set("i", "<BS>", bracket_delete, { desc = "Delete both brackets if they are next to each other", expr = true, silent = true })
-vim.keymap.set("i", " ", expand_space, { desc = "Expand the space to both sides of an internally spaced bracket", expr = true, silent = true })
+vim.keymap.set("i", "<CR>", expand_enter, { desc = "Expand <CR> inside brackets", expr = true, silent = true })
+vim.keymap.set("i", "<BS>", auto_delete, { desc = "Smart delete respectful to paired brackets and quotes", expr = true, silent = true })
+vim.keymap.set("i", " ", expand_bracket_space, { desc = "Expand the space to both sides of an internally spaced bracket", expr = true, silent = true })
 vim.keymap.set("i", "(", function() return auto_bracket("(") end, { desc = "Close Bracket", expr = true, silent = true })
 vim.keymap.set("i", "[", function() return auto_bracket("[") end, { desc = "Close Square Bracket", expr = true, silent = true })
 vim.keymap.set("i", "{", function() return auto_bracket("{") end, { desc = "Close Curly Bracket", expr = true, silent = true })
-vim.keymap.set("i", "'", function() return auto_quote("'") end, { desc = "Close Single Quotes", expr = true, silent = true})
-vim.keymap.set("i", '"', function() return auto_quote('"') end, { desc = "Close Double Quotes", expr = true, silent = true})
-vim.keymap.set("i", "`", function() return auto_quote("`") end, { desc = "Close Backtick Quotes", expr = true, silent = true})
+vim.keymap.set("i", "'", function() return auto_quote("'") end, { desc = "Close Single Quotes", expr = true, silent = true })
+vim.keymap.set("i", '"', function() return auto_quote('"') end, { desc = "Close Double Quotes", expr = true, silent = true })
+vim.keymap.set("i", "`", function() return auto_quote("`") end, { desc = "Close Backtick Quotes", expr = true, silent = true })
 
-vim.keymap.set("i", ")", function() return skip_closing(")") end, { desc = "Allow Bracket Type-over", expr = true, silent = true})
-vim.keymap.set("i", "]", function() return skip_closing("]") end, { desc = "Allow Square Bracket Type-over", expr = true, silent = true})
-vim.keymap.set("i", "}", function() return skip_closing("}") end, { desc = "Allow Curly Bracket Type-over", expr = true, silent = true})
+vim.keymap.set("i", ")", function() return skip_closing(")") end, { desc = "Allow Bracket Type-over", expr = true, silent = true })
+vim.keymap.set("i", "]", function() return skip_closing("]") end, { desc = "Allow Square Bracket Type-over", expr = true, silent = true })
+vim.keymap.set("i", "}", function() return skip_closing("}") end, { desc = "Allow Curly Bracket Type-over", expr = true, silent = true })
 
 -- HTML Specific Keybinds
 vim.api.nvim_create_autocmd("FileType", {
