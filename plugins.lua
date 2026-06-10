@@ -20,9 +20,8 @@ vim.pack.add({
     gh("williamboman/mason-lspconfig.nvim"), -- "
     gh("mofiqul/vscode.nvim"),               -- Colour theme
     gh("NMAC427/guess-indent.nvim"),         -- Improved Indentation
-    gh("catgoose/nvim-colorizer.lua"),       -- #000000 rgb(0, 0, 0) <-- This
+    gh("catgoose/nvim-colorizer.lua"),       -- #ff0000 <-- This
     gh("linux-cultist/venv-selector.nvim"),  -- Allows python venv selection
-    gh("folke/todo-comments.nvim"),          --  TODO: <-- this
     gh("nvim-mini/mini.statusline"),         -- Nicer Status line
     gh("nvim-mini/mini.icons"),              -- Nicer icons
     gh("nvim-mini/mini.move"),               -- Move text around
@@ -30,8 +29,11 @@ vim.pack.add({
     gh("OXY2DEV/markview.nvim"),             -- Markdown Rendering
     ghb("TJ-Woods/nvim-RunFile", "dev"),     -- Run files with the terminal
     ghb("TJ-Woods/nvim-StickyNotes", "dev"), -- Sticky Notes
+    ghb("TJ-Woods/nvim-AutoPair", "dev"),    -- Auto Pairing for brackets & more
     gh("mrjones2014/smart-splits.nvim"),     -- nvim-tmux navigation integration
     gh("Aasim-A/scrollEOF.nvim"),            -- Scrolloff at EOF
+
+    gh("folke/todo-comments.nvim"),          -- TODO: <-- this
 })
 
 -- Start all loaded packages/plugins
@@ -42,8 +44,11 @@ vim.cmd("colorscheme vscode")
 
 -- Run files with the terminal
 require("RunFile").setup({
+    terminal_size = 25,
     split = "split",
-    true_terminal = false,
+    auto_close = false,
+    cleanup = true,
+    true_terminal = true,
     py = {
         auto_close = true,
         true_terminal = false,
