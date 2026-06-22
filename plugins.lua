@@ -1,14 +1,13 @@
-local function gh(repo)
+local function gh(opts)
     -- GitHub link
-    return "https://github.com/" .. repo
-end
-
-local function ghb(repo, branch)
-    -- GitHub Branch Link
-    return {
-        src = "https://github.com/" .. repo,
-        version = branch
-    }
+    if type(opts) == "string" then
+        return "https://github.com/" .. opts
+    elseif type(opts) == "table" then
+        return {
+            src = "https://github.com/" .. opts[1],
+            version = opts[2],
+        }
+    end
 end
 
 vim.pack.add({
@@ -27,12 +26,11 @@ vim.pack.add({
     gh("nvim-mini/mini.move"),               -- Move text around
     gh("nvim-neo-tree/neo-tree.nvim"),       -- Better File Explorer
     gh("OXY2DEV/markview.nvim"),             -- Markdown Rendering
-    ghb("TJ-Woods/nvim-RunFile", "dev"),     -- Run files with the terminal
-    ghb("TJ-Woods/nvim-StickyNotes", "dev"), -- Sticky Notes
-    ghb("TJ-Woods/nvim-AutoPair", "dev"),    -- Auto Pairing for brackets & more
+    gh({"TJ-Woods/nvim-RunFile", "dev"}),     -- Run files with the terminal
+    gh({"TJ-Woods/nvim-StickyNotes", "dev"}), -- Sticky Notes
+    gh({"TJ-Woods/nvim-AutoPair", "dev"}),    -- Auto Pairing for brackets & more
     gh("mrjones2014/smart-splits.nvim"),     -- nvim-tmux navigation integration
     gh("Aasim-A/scrollEOF.nvim"),            -- Scrolloff at EOF
-
     gh("folke/todo-comments.nvim"),          -- TODO: <-- this
 })
 
