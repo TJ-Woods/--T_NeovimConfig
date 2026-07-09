@@ -31,6 +31,7 @@ vim.pack.add({
     gh({"TJ-Woods/nvim-AutoPair", "dev"}),    -- Auto Pairing for brackets & more
     gh("mrjones2014/smart-splits.nvim"),     -- nvim-tmux navigation integration
     gh("Aasim-A/scrollEOF.nvim"),            -- Scrolloff at EOF
+    gh("SunnyTamang/select-undo.nvim"),      -- Undo specific lines/highlighted sections
     gh("folke/todo-comments.nvim"),          -- TODO: <-- this
 })
 
@@ -80,6 +81,8 @@ require("smart-splits").setup({
     disable_multiplexer_nav_when_zoomed = true,
 })
 
+-- Select Undo
+require("select-undo").setup({ mapping = false })
 
 -- File directory exploration
 require("neo-tree").setup({

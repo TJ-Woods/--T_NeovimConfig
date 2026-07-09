@@ -32,3 +32,5 @@ My personal Neovim configuration
     - Tmux navigation compatibility
 * Aasim-A/scrollEOF.nvim
     - Blank lines on EoF for scrolloff
+* SunnyTamang/select-undo.nvim
+    - undo selected parts of a file
