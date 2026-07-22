@@ -39,7 +39,7 @@ vim.o.inccommand = "split"
 vim.o.cursorline = true
 
 -- Set minimum line above/below for scrolling
-vim.o.scrolloff = 15
+vim.o.scrolloff = 20
 
 -- Enable ask-to-confirm when needed
 vim.o.confirm = true
