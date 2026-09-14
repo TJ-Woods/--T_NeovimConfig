@@ -1,24 +1,5 @@
 -- Functions --
 -- if <table> has <value>
-local function has(tbl, val)
-    for _, value in ipairs(tbl) do
-        if value == val then
-            return true
-        end
-    end
-    return false
-end
-
--- if <string> has <char>
-local function has_s(s, char)
-    for c in s:gmatch(".") do
-        if c == char then
-            return true
-        end
-    end
-    return false
-end
-
 -- Create user command lowercase bind
 local function create_user_command(title, cmd, descr)
     local little_title = title:lower()

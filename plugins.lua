@@ -14,9 +14,6 @@ vim.pack.add({
     gh("nvim-lua/plenary.nvim"),             -- Dependancies
     gh("MunifTanjim/nui.nvim"),              -- "
     gh("nvim-treesitter/nvim-treesitter"),   -- "
-    gh("neovim/nvim-lspconfig"),             -- LSP manager
-    gh("williamboman/mason.nvim"),           -- "
-    gh("williamboman/mason-lspconfig.nvim"), -- "
     gh("mofiqul/vscode.nvim"),               -- Colour theme
     gh("NMAC427/guess-indent.nvim"),         -- Improved Indentation
     gh("catgoose/nvim-colorizer.lua"),       -- #ff0000 <-- This
@@ -49,7 +46,7 @@ require("RunFile").setup({
     cleanup = true,
     true_terminal = true,
     py = {
-        auto_close = true,
+        auto_close = false,
         true_terminal = false,
         terminal_size = 30,
     },
@@ -152,6 +149,9 @@ require("venv-selector").setup({
         venv_folder = {
             command = 'fdfind "/bin/python$" ~/Desktop/Coding/Python/Environments/ --full-path',
         },
+        anaconda_env = {
+            command = 'fdfind "/bin/python$" ~/anaconda3/envs/ --full-path',
+        },
         cwd = false,
     }
 })
@@ -166,39 +166,4 @@ require("colorizer").setup({
             },
         },
     },
-})
-
--- Mason.nvim Setup (LSP manager)
-require("mason").setup()
-require("mason-lspconfig").setup({
-    ensure_installed = { "lua_ls" },
-    handlers = {
-        function (server_name)
-            require("lspconfig")[server_name].setup({})
-        end,
-        ["lua_ls"] = function ()
-            require("lspconfig").lua_ls.setup({
-                settings = {
-                    Lua = {
-                        runtime = {
-                            version = 'LuaJIT',
-                        },
-                        diagnostics = {
-                            -- Get the language server to recognize the `vim` global
-                            globals = {'vim'},
-                        },
-                        workspace = {
-                            -- Make the server aware of Neovim runtime files
-                            library = vim.api.nvim_get_runtime_file("", true),
-                            checkThirdParty = false,
-                        },
-                        -- Do not send telemetry data containing a randomized but unique identifier
-                        telemetry = {
-                            enable = false,
-                        },
-                    },
-                },
-            })
-        end,
-    }
 })
