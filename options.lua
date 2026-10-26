@@ -92,3 +92,84 @@ vim.o.winborder = "rounded"
 -- Block Netrw in favour of Neotree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
+
+-- Autocompletion
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
+
+-- Syntax highlighting
+local ts_ok, ts_configs = pcall(require, "nvim-treesitter.configs")
+if ts_ok then
+  ts_configs.setup({
+    ensure_installed = { "c", "cpp", "python", "nix", "lua", "vim", "vimdoc" },
+    auto_install = false,
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
+    },
+    indent = {
+      enable = true,
+    },
+  })
+end
+
+-- LSP config
+-- Global LspAttach autocmd for keymaps and built-in completion
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local bufnr = args.buf
+
+    -- Enable Neovim's built-in completion
+    if client and client:supports_method("textDocument/completion") then
+      vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+    end
+
+    -- LSP Buffer Keymaps
+    local opts = { buffer = bufnr, silent = true }
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+    vim.keymap.set("n", "<leader>f", function()
+      vim.lsp.buf.format({ async = true })
+    end, opts)
+  end,
+})
+
+-- Configure servers directly via vim.lsp.config table
+-- (Default configurations like filetypes and root markers are inherited from nvim-lspconfig)
+
+-- C / C++ (clangd)
+vim.lsp.config.clangd = {
+  cmd = {
+    "clangd",
+    "--background-index",
+    "--clang-tidy",
+    "--header-insertion=iwyu",
+    "--completion-style=detailed",
+  },
+}
+
+-- Python (pyright)
+vim.lsp.config.pyright = {}
+
+-- Nix (nil)
+vim.lsp.config.nil_ls = {}
+
+-- Enable the configured servers
+vim.lsp.enable({ "clangd", "pyright", "nil_ls" })
+
+-- Diagnostic settings
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = "-",
+    spacing = 4,
+  },
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+})

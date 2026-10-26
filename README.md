@@ -1,5 +1,5 @@
 # --T_NeovimConfig
-My personal Neovim configuration
+My personal Neovim configuration for Neovim 0.12.4
 
 ----------
 
@@ -34,3 +34,6 @@ My personal Neovim configuration
     - Blank lines on EoF for scrolloff
 * SunnyTamang/select-undo.nvim
     - undo selected parts of a file
+
+---
+Contains AI generated code. I'll be rewriting it soon myself, just needed something quick and functional before I update it for Nix compatibility and newer nvim versions
